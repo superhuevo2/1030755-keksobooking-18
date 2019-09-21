@@ -1,20 +1,20 @@
 'use strict';
-//константы
+// константы
 var TYPES = ['palace', 'flat', 'house', 'bungalo'];
-var TIMES = ['12:00','13:00','14:00'];
+var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var CORRECT_PIN_X = 25;
 var CORRECT_PIN_Y = 70;
 
-//функции
+// функции
 /**
  * generate random integer.
  * @param {number} first the first number from a range; must be >=0.
  * @param {number} last the last number from a range; must be >=0.
  * @return {number} a random number within the range.
  */
-function genRandom(from, last) {
-  return from + Math.floor(Math.random()* (last - from + 1)) //прибавил единицу, чтоб last было включено в рендж, из которого берется случайное число
+function genRandom(first, last) {
+  return first + Math.floor(Math.random() * (last - first + 1)); // прибавил единицу, чтоб last было включено в рендж, из которого берется случайное число
 }
 
 /**
@@ -23,7 +23,7 @@ function genRandom(from, last) {
  * @return {*} selected element
  */
 function selectFrom(arr) {
-  return arr[genRandom(0, arr.length - 1)]
+  return arr[genRandom(0, arr.length - 1)];
 }
 
 /**
@@ -33,13 +33,13 @@ function selectFrom(arr) {
 function genAvatar() {
   var avatar = [];
 
-  while (avatar.length <  8) {
-    var element = "img/avatars/user0" + genRandom(1, 8) + '.png';
+  while (avatar.length < 8) {
+    var element = 'img/avatars/user0' + genRandom(1, 8) + '.png';
     if (avatar.indexOf(element) === -1) {
-      avatar.push(element)
+      avatar.push(element);
     }
   }
-  return avatar
+  return avatar;
 }
 /**
  *generate a list of links
@@ -53,7 +53,7 @@ function genPhotoLink() {
     var element = 'http://o0.github.io/assets/images/tokyo/hotel' + i + '.jpg';
     arr.push(element);
   }
-  return arr
+  return arr;
 }
 
 /**
@@ -62,22 +62,21 @@ function genPhotoLink() {
  * @return {string} generated string
  */
 function genString(quantity) {
-  var alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
-  var wordLength = genRandom(1, 10);
+  var alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
   var letter = '';
 
   for (var i = 0; i < quantity; i++) {
     var word = '';
     var wordLength = genRandom(1, 10);
     for (var l = 0; l < wordLength; l++) {
-      word += alphabet[genRandom(0, alphabet.length-1)]
+      word += alphabet[genRandom(0, alphabet.length - 1)];
     }
-    if (l != quantity - 1) {
+    if (l !== quantity - 1) {
       word += ' ';
     }
     letter += word;
   }
-  return letter
+  return letter;
 }
 
 /**
@@ -87,7 +86,7 @@ function genString(quantity) {
 function generateAdList() {
   var avatar = [];
   avatar.push.apply(avatar, genAvatar());
-  var maxWidth = document.querySelector('.map').offsetWidth
+  var maxWidth = document.querySelector('.map').offsetWidth;
   var adList = [];
 
   for (var i = 0; i < 8; i++) {
@@ -102,7 +101,7 @@ function generateAdList() {
       'y': genRandom(130, 630)
     };
 
-    ad['offer'] =  {
+    ad['offer'] = {
       'title': genString(genRandom(1, 3)),
       'address': String(ad.location.x) + ', ' + String(ad.location.y),
       'price': genRandom(1000, 10000),
@@ -114,10 +113,10 @@ function generateAdList() {
       'features': [].concat(FEATURES.slice(0, genRandom(0, FEATURES.length))),
       'description': genString(genRandom(8, 15)),
       'photos': genPhotoLink()
-    }
+    };
     adList.push(ad);
   }
-  return adList
+  return adList;
 }
 /**
  * create a document fragment from template and data.
@@ -137,13 +136,13 @@ function makePins(template, objList) {
 
     fragment.appendChild(element);
   }
-  return fragment
+  return fragment;
 }
 
-//работа с данными
+// работа с данными
 var adList = generateAdList();
 
-//работа с дом
+// работа с дом
 var map = document.querySelector('.map');
 map.classList.remove('map--fade');
 
