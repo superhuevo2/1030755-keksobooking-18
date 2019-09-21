@@ -1,8 +1,12 @@
 'use strict';
+//константы
 var TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var TIMES = ['12:00','13:00','14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var CORRECT_PIN_X = 25;
+var CORRECT_PIN_Y = 70;
 
+//функции
 /**
  * generate random integer.
  * @param {number} first the first number from a range; must be >=0.
@@ -76,7 +80,6 @@ function genString(quantity) {
   return letter
 }
 
-
 /**
  * generate a list of 8 advertisements.
  * @return {array} a list of generated advertisements.
@@ -84,6 +87,7 @@ function genString(quantity) {
 function generateAdList() {
   var avatar = [];
   avatar.push.apply(avatar, genAvatar());
+  var maxWidth = document.querySelector('.map').offsetWidth
   var adList = [];
 
   for (var i = 0; i < 8; i++) {
@@ -94,7 +98,7 @@ function generateAdList() {
     };
 
     ad['location'] = {
-      'x': genRandom(130, 630),
+      'x': genRandom(0, maxWidth),
       'y': genRandom(130, 630)
     };
 
@@ -115,5 +119,35 @@ function generateAdList() {
   }
   return adList
 }
+/**
+ * create a document fragment from template and data.
+ * @param {object} template a template for copying.
+ * @param {array} objList a list from wich data writes.
+ * @return {object} a fragment of DOM.
+ */
+function makePins(template, objList) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < objList.length; i++) {
+    var element = template.cloneNode(true);
+    var image = element.querySelector('img');
+    element.setAttribute('style', 'left: ' + (objList[i].location.x - CORRECT_PIN_X)
+        + 'px; top: ' + (objList[i].location.y - CORRECT_PIN_Y) + 'px');
+    image.setAttribute('src', objList[i].author.avatar);
+    image.setAttribute('alt', objList[i].offer.title);
 
+    fragment.appendChild(element);
+  }
+  return fragment
+}
 
+//работа с данными
+var adList = generateAdList();
+
+//работа с дом
+var map = document.querySelector('.map');
+map.classList.remove('map--fade');
+
+var pinsField = document.querySelector('.map__pins');
+var template = document.querySelector('#pin').content.querySelector('.map__pin');
+
+pinsField.appendChild(makePins(template, adList));
