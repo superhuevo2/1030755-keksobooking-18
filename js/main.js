@@ -122,28 +122,23 @@ function genPhotoEl(element, linksList) {
  */
 function defineTypeOfHouse(key) {
   if (key === 'flat') {
-    return 'Квартира'
-  }
-  else if  (key === 'bungalo') {
-    return 'Бунгало'
-  }
-  else if  (key === 'house') {
-    return 'Дом'
-  }
-  else if  (key === 'palace') {
-    return 'Дворец'
-  }
-  else {
+    return 'Квартира';
+  } else if (key === 'bungalo') {
+    return 'Бунгало';
+  } else if (key === 'house') {
+    return 'Дом';
+  } else if (key === 'palace') {
+    return 'Дворец';
+  } else {
     return 'Неизвестный тип';
   }
 }
 
 /**
- * remome elements from objFrom if those elements dont exist in objectList
+ * remove elements from objFrom if those elements dont exist in objectList
  * @param {Object} objFrom
  * @param {ArrayLike} objectList a list of appropriate elements
  * @param {Function} determinant define is an element appropriate or not
- * @return {Array} a list of appropriate elements
  */
 function removeRedundantObjects(objFrom, objectList, determinant) {
 
