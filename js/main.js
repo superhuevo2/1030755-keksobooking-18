@@ -27,6 +27,25 @@ function selectFrom(arr) {
 }
 
 /**
+ * finds whether there is a feature in a fearureList
+ * @param {ArrayLike} featureList
+ * @param {String} feature
+ * @return {Boolean} true or false
+ */
+function isFeatureInList(featureList, feature) {
+  var counter = 0;
+  var arr = Array.prototype.slice.call(featureList);
+
+  while (feature.className.indexOf(arr[counter]) < 0) {
+    counter += 1;
+    if (counter === arr.length) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
  * generate a list of links to images.
  * @return {array} a list of links to images.
  */
@@ -50,7 +69,7 @@ function genPhotoLink() {
   var arrLength = genRandom(1, 6);
 
   for (var i = 0; i < arrLength; i++) {
-    var element = 'http://o0.github.io/assets/images/tokyo/hotel' + i + '.jpg';
+    var element = 'http://o0.github.io/assets/images/tokyo/hotel' + genRandom(1, 3) + '.jpg';
     arr.push(element);
   }
   return arr;
@@ -67,7 +86,7 @@ function genString(quantity) {
 
   for (var i = 0; i < quantity; i++) {
     var word = '';
-    var wordLength = genRandom(1, 10);
+    var wordLength = genRandom(4, 10);
     for (var l = 0; l < wordLength; l++) {
       word += alphabet[genRandom(0, alphabet.length - 1)];
     }
@@ -77,6 +96,62 @@ function genString(quantity) {
     letter += word;
   }
   return letter;
+}
+
+/**
+ * generate a fragment of DOM's elements from an element
+ * @param {Object} element
+ * @param {Array} linksList
+ * @return {Object} fragment of elements
+ */
+function genPhotoEl(element, linksList) {
+  var fragment = document.createDocumentFragment();
+
+  for (var i = 0; i < linksList.length; i++) {
+    var newElement = element.cloneNode(true);
+    newElement.setAttribute('src', linksList[i]);
+    fragment.appendChild(newElement);
+  }
+  return fragment;
+}
+
+/**
+ * to convert a key from readable form
+ * @param {string} key
+ * @return {string}
+ */
+function defineTypeOfHouse(key) {
+  if (key === 'flat') {
+    return 'Квартира'
+  }
+  else if  (key === 'bungalo') {
+    return 'Бунгало'
+  }
+  else if  (key === 'house') {
+    return 'Дом'
+  }
+  else if  (key === 'palace') {
+    return 'Дворец'
+  }
+  else {
+    return 'Неизвестный тип';
+  }
+}
+
+/**
+ * remome elements from objFrom if those elements dont exist in objectList
+ * @param {Object} objFrom
+ * @param {ArrayLike} objectList a list of appropriate elements
+ * @param {Function} determinant define is an element appropriate or not
+ * @return {Array} a list of appropriate elements
+ */
+function removeRedundantObjects(objFrom, objectList, determinant) {
+
+  for (var i = objFrom.children.length - 1; i >= 0; i--) {
+    if (!determinant(objectList, objFrom.children[i])) {
+      objFrom.removeChild(objFrom.children[i]);
+    }
+  }
 }
 
 /**
@@ -139,14 +214,51 @@ function makePins(template, objList) {
   return fragment;
 }
 
+function createCard(template, obList) {
+  var element = template.cloneNode(true);
+
+  var title = element.querySelector('.popup__title');
+  var address = element.querySelector(' .popup__text--address');
+  var price = element.querySelector('.popup__text--price');
+  var type = element.querySelector('.popup__type');
+  var capacity = element.querySelector('.popup__text--capacity');
+  var time = element.querySelector('.popup__text--time');
+  var featuresList = element.querySelector('.popup__features');
+  var description = element.querySelector('.popup__description');
+  var photos = element.querySelector('.popup__photos');
+  var avatar = element.querySelector('.popup__avatar');
+
+  title.textContent = obList[0].offer.title;
+  address.textContent = obList[0].offer.address;
+  price.textContent = obList[0].offer.price + '₽/ночь';
+  type.textContent = defineTypeOfHouse(obList[0].offer.type);
+  capacity.textContent = obList[0].offer.rooms + ' комнаты для '
+      + obList[0].offer.guests + ' гостей';
+  time.textContent = 'Заезд после ' + obList[0].offer.checkin
+      + ', выезд до ' + obList[0].offer.checkout;
+
+  removeRedundantObjects(featuresList, obList[0].offer.features, isFeatureInList);
+  description.textContent = obList[0].offer.description;
+  photos.appendChild(genPhotoEl(photos.firstElementChild, obList[0].offer.photos));
+  photos.removeChild(photos.firstElementChild);
+  avatar.setAttribute('src', obList[0].author.avatar);
+
+  return element;
+}
+
 // работа с данными
 var adList = generateAdList();
 
 // работа с дом
-var map = document.querySelector('.map');
-map.classList.remove('map--fade');
+var mapField = document.querySelector('.map');
+mapField.classList.remove('map--fade');
 
 var pinsField = document.querySelector('.map__pins');
-var template = document.querySelector('#pin').content.querySelector('.map__pin');
+var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
-pinsField.appendChild(makePins(template, adList));
+pinsField.appendChild(makePins(pinTemplate, adList));
+
+var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+var filterContainer = mapField.querySelector('.map__filters-container');
+
+mapField.insertBefore(createCard(cardTemplate, adList), filterContainer);
