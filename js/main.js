@@ -116,22 +116,18 @@ function genPhotoEl(element, linksList) {
 }
 
 /**
- * to convert a key from readable form
- * @param {string} key
+ * to convert a type from a readable form
+ * @param {string} type
  * @return {string}
  */
-function defineTypeOfHouse(key) {
-  if (key === 'flat') {
-    return 'Квартира';
-  } else if (key === 'bungalo') {
-    return 'Бунгало';
-  } else if (key === 'house') {
-    return 'Дом';
-  } else if (key === 'palace') {
-    return 'Дворец';
-  } else {
-    return 'Неизвестный тип';
-  }
+function defineTypeOfHouse(type) {
+  var container = {
+    'flat': 'Квартира',
+    'bungalo': 'Бунгало',
+    'house': 'Дом',
+    'palace': 'Дворец',
+  };
+  return container[type] || 'Неизвестный тип'
 }
 
 /**
@@ -209,7 +205,13 @@ function makePins(template, objList) {
   return fragment;
 }
 
-function createCard(template, obList) {
+/**
+ * create card which contain information about an offer
+ * @param {*} template
+ * @param {*} adObj
+ * @return {Object} document.fragment obj of rent offer
+ */
+function createCard(template, adObj) {
   var element = template.cloneNode(true);
 
   var title = element.querySelector('.popup__title');
@@ -223,20 +225,20 @@ function createCard(template, obList) {
   var photos = element.querySelector('.popup__photos');
   var avatar = element.querySelector('.popup__avatar');
 
-  title.textContent = obList[0].offer.title;
-  address.textContent = obList[0].offer.address;
-  price.textContent = obList[0].offer.price + '₽/ночь';
-  type.textContent = defineTypeOfHouse(obList[0].offer.type);
-  capacity.textContent = obList[0].offer.rooms + ' комнаты для '
-      + obList[0].offer.guests + ' гостей';
-  time.textContent = 'Заезд после ' + obList[0].offer.checkin
-      + ', выезд до ' + obList[0].offer.checkout;
+  title.textContent = adObj.offer.title;
+  address.textContent = adObj.offer.address;
+  price.textContent = adObj.offer.price + '₽/ночь';
+  type.textContent = defineTypeOfHouse(adObj.offer.type);
+  capacity.textContent = adObj.offer.rooms + ' комнаты для '
+      + adObj.offer.guests + ' гостей';
+  time.textContent = 'Заезд после ' + adObj.offer.checkin
+      + ', выезд до ' + adObj.offer.checkout;
 
-  removeRedundantObjects(featuresList, obList[0].offer.features, isFeatureInList);
-  description.textContent = obList[0].offer.description;
-  photos.appendChild(genPhotoEl(photos.firstElementChild, obList[0].offer.photos));
+  removeRedundantObjects(featuresList, adObj.offer.features, isFeatureInList);
+  description.textContent = adObj.offer.description;
+  photos.appendChild(genPhotoEl(photos.firstElementChild, adObj.offer.photos));
   photos.removeChild(photos.firstElementChild);
-  avatar.setAttribute('src', obList[0].author.avatar);
+  avatar.setAttribute('src', adObj.author.avatar);
 
   return element;
 }
@@ -256,4 +258,4 @@ pinsField.appendChild(makePins(pinTemplate, adList));
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var filterContainer = mapField.querySelector('.map__filters-container');
 
-mapField.insertBefore(createCard(cardTemplate, adList), filterContainer);
+mapField.insertBefore(createCard(cardTemplate, adList[0]), filterContainer);
