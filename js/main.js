@@ -1,8 +1,8 @@
 'use strict';
 // константы
-// var TYPES = ['palace', 'flat', 'house', 'bungalo'];
-// var TIMES = ['12:00', '13:00', '14:00'];
-// var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var TYPES = ['palace', 'flat', 'house', 'bungalo'];
+var TIMES = ['12:00', '13:00', '14:00'];
+var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var CORRECT_PIN_X = 25;
 var CORRECT_PIN_Y = 70;
 var KEY_ENTER_CODE = 13;
@@ -14,22 +14,18 @@ var KEY_ENTER_CODE = 13;
  * @param {number} last the last number from a range; must be >=0.
  * @return {number} a random number within the range.
  */
-/*
 function genRandom(first, last) {
   return first + Math.floor(Math.random() * (last - first + 1)); // прибавил единицу, чтоб last было включено в рендж, из которого берется случайное число
 }
-*/
 
 /**
  * select an element from an array
  * @param {array} arr an array from which an element will be selected.
  * @return {*} selected element
  */
-/*
 function selectFrom(arr) {
   return arr[genRandom(0, arr.length - 1)];
 }
-*/
 
 /**
  * finds whether there is a feature in a fearureList
@@ -56,7 +52,6 @@ function isFeatureInList(featureList, feature) {
  * generate a list of links to images.
  * @return {array} a list of links to images.
  */
-/*
 function genAvatar() {
   var avatar = [];
 
@@ -68,13 +63,11 @@ function genAvatar() {
   }
   return avatar;
 }
-*/
 
 /**
  *generate a list of links
  * @return {array} a list of photos' links
  */
-/*
 function genPhotoLink() {
   var arr = [];
   var arrLength = genRandom(1, 6);
@@ -85,14 +78,12 @@ function genPhotoLink() {
   }
   return arr;
 }
-*/
 
 /**
  * generate random string
  * @param {number} quantity quantity of words which function returned
  * @return {string} generated string
  */
-/*
 function genString(quantity) {
   var alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
   var letter = '';
@@ -110,7 +101,6 @@ function genString(quantity) {
   }
   return letter;
 }
-*/
 
 /**
  * generate a fragment of DOM's elements from an element
@@ -169,7 +159,6 @@ function removeRedundantObjects(objFrom, objectList, determinant) {
  * generate a list of 8 advertisements.
  * @return {array} a list of generated advertisements.
  */
-/*
 function generateAdList() {
   var avatar = [];
   avatar.push.apply(avatar, genAvatar());
@@ -205,7 +194,6 @@ function generateAdList() {
   }
   return adList;
 }
-*/
 
 /**
  * create a document fragment from template and data.
@@ -213,7 +201,6 @@ function generateAdList() {
  * @param {array} objList a list from wich data writes.
  * @return {object} a fragment of DOM.
  */
-/*
 function makePins(template, objList) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < objList.length; i++) {
@@ -228,7 +215,7 @@ function makePins(template, objList) {
   }
   return fragment;
 }
-*/
+
 /**
  * create card which contain information about an offer
  * @param {*} template
@@ -268,6 +255,13 @@ function createCard(template, adObj) {
   return element;
 }
 */
+
+function renderPins() {
+  var pinsField = document.querySelector('.map__pins');
+  var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+
+  pinsField.appendChild(makePins(pinTemplate, adList));
+}
 
 /**
  * make element disabled
@@ -373,6 +367,7 @@ function synchroniseTimeInAndOut(value, target) {
 function mainPinMousdownHandler() {
   activatePage('activate');
   setAddressByPin();
+  renderPins();
 }
 
 /**
@@ -383,6 +378,7 @@ function mainPinKeydownHandler(evt) {
   if (evt.keyCode === KEY_ENTER_CODE) {
     activatePage('activate');
     setAddressByPin();
+    renderPins();
   }
 }
 
@@ -405,14 +401,9 @@ function formBtnClickHandler() {
 }
 
 // работа с данными
-// var adList = generateAdList();
+var adList = generateAdList();
 
 // работа с дом
-// var pinsField = document.querySelector('.map__pins');
-// var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-
-// pinsField.appendChild(makePins(pinTemplate, adList));
-
 // var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 // var filterContainer = document.querySelector('.map__filters-container');
 
