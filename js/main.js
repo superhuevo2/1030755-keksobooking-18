@@ -1,10 +1,11 @@
 'use strict';
 // константы
-var TYPES = ['palace', 'flat', 'house', 'bungalo'];
-var TIMES = ['12:00', '13:00', '14:00'];
-var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+// var TYPES = ['palace', 'flat', 'house', 'bungalo'];
+// var TIMES = ['12:00', '13:00', '14:00'];
+// var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var CORRECT_PIN_X = 25;
 var CORRECT_PIN_Y = 70;
+var KEY_ENTER_CODE = 13;
 
 // функции
 /**
@@ -13,18 +14,22 @@ var CORRECT_PIN_Y = 70;
  * @param {number} last the last number from a range; must be >=0.
  * @return {number} a random number within the range.
  */
+/*
 function genRandom(first, last) {
   return first + Math.floor(Math.random() * (last - first + 1)); // прибавил единицу, чтоб last было включено в рендж, из которого берется случайное число
 }
+*/
 
 /**
  * select an element from an array
  * @param {array} arr an array from which an element will be selected.
  * @return {*} selected element
  */
+/*
 function selectFrom(arr) {
   return arr[genRandom(0, arr.length - 1)];
 }
+*/
 
 /**
  * finds whether there is a feature in a fearureList
@@ -32,6 +37,7 @@ function selectFrom(arr) {
  * @param {String} feature
  * @return {Boolean} true or false
  */
+/*
 function isFeatureInList(featureList, feature) {
   var counter = 0;
   var arr = Array.prototype.slice.call(featureList);
@@ -44,11 +50,13 @@ function isFeatureInList(featureList, feature) {
   }
   return true;
 }
+*/
 
 /**
  * generate a list of links to images.
  * @return {array} a list of links to images.
  */
+/*
 function genAvatar() {
   var avatar = [];
 
@@ -60,10 +68,13 @@ function genAvatar() {
   }
   return avatar;
 }
+*/
+
 /**
  *generate a list of links
  * @return {array} a list of photos' links
  */
+/*
 function genPhotoLink() {
   var arr = [];
   var arrLength = genRandom(1, 6);
@@ -74,12 +85,14 @@ function genPhotoLink() {
   }
   return arr;
 }
+*/
 
 /**
  * generate random string
  * @param {number} quantity quantity of words which function returned
  * @return {string} generated string
  */
+/*
 function genString(quantity) {
   var alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
   var letter = '';
@@ -97,6 +110,7 @@ function genString(quantity) {
   }
   return letter;
 }
+*/
 
 /**
  * generate a fragment of DOM's elements from an element
@@ -104,6 +118,7 @@ function genString(quantity) {
  * @param {Array} linksList
  * @return {Object} fragment of elements
  */
+/*
 function genPhotoEl(element, linksList) {
   var fragment = document.createDocumentFragment();
 
@@ -114,12 +129,14 @@ function genPhotoEl(element, linksList) {
   }
   return fragment;
 }
+*/
 
 /**
  * to convert a type from a readable form
  * @param {string} type
  * @return {string}
  */
+/*
 function defineTypeOfHouse(type) {
   var container = {
     'flat': 'Квартира',
@@ -127,8 +144,9 @@ function defineTypeOfHouse(type) {
     'house': 'Дом',
     'palace': 'Дворец',
   };
-  return container[type] || 'Неизвестный тип'
+  return container[type] || 'Неизвестный тип';
 }
+*/
 
 /**
  * remove elements from objFrom if those elements dont exist in objectList
@@ -136,6 +154,7 @@ function defineTypeOfHouse(type) {
  * @param {ArrayLike} objectList a list of appropriate elements
  * @param {Function} determinant define is an element appropriate or not
  */
+/*
 function removeRedundantObjects(objFrom, objectList, determinant) {
 
   for (var i = objFrom.children.length - 1; i >= 0; i--) {
@@ -144,11 +163,13 @@ function removeRedundantObjects(objFrom, objectList, determinant) {
     }
   }
 }
+*/
 
 /**
  * generate a list of 8 advertisements.
  * @return {array} a list of generated advertisements.
  */
+/*
 function generateAdList() {
   var avatar = [];
   avatar.push.apply(avatar, genAvatar());
@@ -184,19 +205,22 @@ function generateAdList() {
   }
   return adList;
 }
+*/
+
 /**
  * create a document fragment from template and data.
  * @param {object} template a template for copying.
  * @param {array} objList a list from wich data writes.
  * @return {object} a fragment of DOM.
  */
+/*
 function makePins(template, objList) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < objList.length; i++) {
     var element = template.cloneNode(true);
     var image = element.querySelector('img');
-    element.setAttribute('style', 'left: ' + (objList[i].location.x - CORRECT_PIN_X)
-        + 'px; top: ' + (objList[i].location.y - CORRECT_PIN_Y) + 'px');
+    element.style.top = (objList[i].location.y - CORRECT_PIN_Y) + 'px';
+    element.style.left = (objList[i].location.x - CORRECT_PIN_X) + 'px';
     image.setAttribute('src', objList[i].author.avatar);
     image.setAttribute('alt', objList[i].offer.title);
 
@@ -204,13 +228,14 @@ function makePins(template, objList) {
   }
   return fragment;
 }
-
+*/
 /**
  * create card which contain information about an offer
  * @param {*} template
  * @param {*} adObj
  * @return {Object} document.fragment obj of rent offer
  */
+/*
 function createCard(template, adObj) {
   var element = template.cloneNode(true);
 
@@ -242,20 +267,171 @@ function createCard(template, adObj) {
 
   return element;
 }
+*/
+
+/**
+ * make element disabled
+ * @param {*} element
+ */
+function addDisabledAttr(element) {
+  element.setAttribute('disabled', '');
+}
+
+/**
+ * make element active
+ * @param {*} element
+ */
+function removeDisabledAttr(element) {
+  element.removeAttribute('disabled');
+}
+
+/**
+ * make the map and the forms activated or deactivated
+ * @param {string} switcher statement 'activate' makes page activated, 'deactivate' makes page deactivated
+ */
+function activatePage(switcher) {
+  var mapField = document.querySelector('.map');
+  var mapFiltersSelect = document.querySelector('.map__filters').querySelectorAll('select');
+  var mapFiltersFieldset = document.querySelector('.map__filters').querySelectorAll('fieldset');
+  var adForm = document.querySelector('.ad-form');
+  var adFormFieldset = adForm.querySelectorAll('fieldset');
+
+  if (switcher === 'activate') {
+    mapField.classList.remove('map--faded');
+    adForm.classList.remove('ad-form--disabled');
+    mapFiltersSelect.forEach(removeDisabledAttr);
+    mapFiltersFieldset.forEach(removeDisabledAttr);
+    adFormFieldset.forEach(removeDisabledAttr);
+  } else if (switcher === 'deactivate') {
+    mapField.classList.add('map--faded');
+    mapFiltersSelect.forEach(addDisabledAttr);
+    mapFiltersFieldset.forEach(addDisabledAttr);
+    adFormFieldset.forEach(addDisabledAttr);
+  }
+}
+
+/**
+ * writes pin's coordinate in the address input
+ */
+function setAddressByPin() {
+  var pin = document.querySelector('.map__pin--main');
+  var addressInput = document.querySelector('#address');
+  var location = {
+    'x': null,
+    'y': null
+  };
+  var topCoordinate = pin.style.top;
+  var leftCoordinate = pin.style.left;
+  location.x = Number(topCoordinate.slice(0, topCoordinate.length - 2)) + CORRECT_PIN_X;
+  location.y = Number(leftCoordinate.slice(0, topCoordinate.length - 2)) + CORRECT_PIN_Y;
+  addressInput.value = location.x + ' ' + location.y;
+}
+
+/**
+ * checks whether number of rooms suit number of guests
+ * @return {boolean}
+ */
+function isRoomsSuitableGuests() {
+  var roomNumber = document.querySelector('#room_number')
+      .querySelector('option:checked')
+      .getAttribute('value');
+  var guestNumber = document.querySelector('#capacity')
+    .querySelector('option:checked')
+    .getAttribute('value');
+
+  if (Number(roomNumber) === 100) {
+    return Number(guestNumber) === 0;
+  }
+  if (Number(guestNumber) === 0) {
+    return Number(roomNumber) === 100;
+  }
+  return Number(roomNumber) >= Number(guestNumber);
+}
+
+
+function validateRoomsAndGuests() {
+  var rooms = document.querySelector('#room_number');
+
+  if (!isRoomsSuitableGuests()) {
+    rooms.setCustomValidity('Количество комнат должно соответствовать количеству гостей');
+  } else {
+    rooms.setCustomValidity('');
+  }
+}
+
+function synchroniseTimeInAndOut(value, target) {
+  for (var i = 0; i < target.options.length; i++) {
+    if (target.options[i].value === value) {
+      target.options[i].selected = true;
+    }
+  }
+}
+
+/**
+ * activate page by mousedown on mainPin
+ */
+function mainPinMousdownHandler() {
+  activatePage('activate');
+  setAddressByPin();
+}
+
+/**
+ * activate page by press enter
+ * @param {*} evt
+ */
+function mainPinKeydownHandler(evt) {
+  if (evt.keyCode === KEY_ENTER_CODE) {
+    activatePage('activate');
+    setAddressByPin();
+  }
+}
+
+function timeInClickHandler(evt) {
+  var timeInValue = evt.target.value;
+  var timeOut = document.querySelector('#timeout');
+  synchroniseTimeInAndOut(timeInValue, timeOut);
+}
+
+
+function timeOutClickHandler(evt) {
+  var timeInValue = evt.target.value;
+  var timeIn = document.querySelector('#timein');
+  synchroniseTimeInAndOut(timeInValue, timeIn);
+}
+
+
+function formBtnClickHandler() {
+  validateRoomsAndGuests();
+}
 
 // работа с данными
-var adList = generateAdList();
+// var adList = generateAdList();
 
 // работа с дом
-var mapField = document.querySelector('.map');
-mapField.classList.remove('map--fade');
+// var pinsField = document.querySelector('.map__pins');
+// var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
-var pinsField = document.querySelector('.map__pins');
-var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+// pinsField.appendChild(makePins(pinTemplate, adList));
 
-pinsField.appendChild(makePins(pinTemplate, adList));
+// var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+// var filterContainer = document.querySelector('.map__filters-container');
 
-var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-var filterContainer = mapField.querySelector('.map__filters-container');
+// mapField.insertBefore(createCard(cardTemplate, adList[0]), filterContainer);
 
-mapField.insertBefore(createCard(cardTemplate, adList[0]), filterContainer);
+// делаю страницу неактивной
+activatePage('deactivate');
+
+// обработчики, которые активирует карту по нажатию на пин
+var mainPin = document.querySelector('.map__pin--main');
+mainPin.addEventListener('mousedown', mainPinMousdownHandler);
+mainPin.addEventListener('keydown', mainPinKeydownHandler);
+
+// валидация формы
+var formBtn = document.querySelector('.ad-form__submit');
+formBtn.addEventListener('click', formBtnClickHandler);
+
+var timeIn = document.querySelector('#timein');
+timeIn.addEventListener('input', timeInClickHandler);
+
+var timeOut = document.querySelector('#timeout');
+timeOut.addEventListener('input', timeOutClickHandler);
