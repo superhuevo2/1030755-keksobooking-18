@@ -448,7 +448,7 @@ activatePage('deactivate');
 // обработчики, которые активирует карту по нажатию на пин
 
 addMainPinClickListener(adList);
-addMainPinKeydownListener(adList)
+addMainPinKeydownListener(adList);
 
 // валидация формы
 var formBtn = document.querySelector('.ad-form__submit');
