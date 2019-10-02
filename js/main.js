@@ -387,7 +387,7 @@ function mainPinMousdownHandler() {
  */
 function mainPinKeydownHandler(evt) {
   if (evt.keyCode === KEY_ENTER_CODE) {
-    mainPinMousdownHandler()
+    mainPinMousdownHandler();
   }
 }
 
