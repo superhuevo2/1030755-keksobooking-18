@@ -4,7 +4,7 @@ var TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var CORRECT_PIN_X = 25;
-var CORRECT_PIN_Y = 70;
+var CORRECT_PIN_Y = 40;
 var KEY_ENTER_CODE = 13;
 
 // функции
@@ -198,7 +198,7 @@ function generateAdList() {
 /**
  * create a document fragment from template and data.
  * @param {object} template a template for copying.
- * @param {array} objList a list from wich data writes.
+ * @param {array} objList a list from wich data is written.
  * @return {object} a fragment of DOM.
  */
 function makePins(template, objList) {
@@ -256,11 +256,15 @@ function createCard(template, adObj) {
 }
 */
 
-function renderPins() {
+/**
+ * render pins on the map
+ * @param {Array} objList list of objects for making pins
+ */
+function renderPins(objList) {
   var pinsField = document.querySelector('.map__pins');
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
-  pinsField.appendChild(makePins(pinTemplate, adList));
+  pinsField.appendChild(makePins(pinTemplate, objList));
 }
 
 /**
@@ -342,7 +346,9 @@ function isRoomsSuitableGuests() {
   return Number(roomNumber) >= Number(guestNumber);
 }
 
-
+/**
+ * check whether rooms are suitable for guests
+ */
 function validateRoomsAndGuests() {
   var rooms = document.querySelector('#room_number');
 
@@ -353,6 +359,11 @@ function validateRoomsAndGuests() {
   }
 }
 
+/**
+ * synchronise value between objects timeIn and timeOut
+ * @param {String} value
+ * @param {object} target
+ */
 function synchroniseTimeInAndOut(value, target) {
   for (var i = 0; i < target.options.length; i++) {
     if (target.options[i].value === value) {
@@ -367,7 +378,7 @@ function synchroniseTimeInAndOut(value, target) {
 function mainPinMousdownHandler() {
   activatePage('activate');
   setAddressByPin();
-  renderPins();
+  renderPins(adList);
 }
 
 /**
@@ -376,26 +387,33 @@ function mainPinMousdownHandler() {
  */
 function mainPinKeydownHandler(evt) {
   if (evt.keyCode === KEY_ENTER_CODE) {
-    activatePage('activate');
-    setAddressByPin();
-    renderPins();
+    mainPinMousdownHandler()
   }
 }
 
+/**
+ * synchronise timeIn and timeOut by click on timeIn
+ * @param {*} evt
+ */
 function timeInClickHandler(evt) {
   var timeInValue = evt.target.value;
   var timeOut = document.querySelector('#timeout');
   synchroniseTimeInAndOut(timeInValue, timeOut);
 }
 
-
+/**
+ * synchronise timeIn and timeOut by click on timeOut
+ * @param {*} evt
+ */
 function timeOutClickHandler(evt) {
-  var timeInValue = evt.target.value;
+  var timeOutValue = evt.target.value;
   var timeIn = document.querySelector('#timein');
-  synchroniseTimeInAndOut(timeInValue, timeIn);
+  synchroniseTimeInAndOut(timeOutValue, timeIn);
 }
 
-
+/**
+ * validate form before submit
+ */
 function formBtnClickHandler() {
   validateRoomsAndGuests();
 }
