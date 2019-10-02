@@ -372,24 +372,39 @@ function synchroniseTimeInAndOut(value, target) {
   }
 }
 
-/**
- * activate page by mousedown on mainPin
- */
-function mainPinMousdownHandler() {
-  activatePage('activate');
-  setAddressByPin();
-  renderPins(adList);
+
+function addMainPinClickListener(adList) {
+  /**
+   * activate page by mousedown on mainPin
+   */
+  function mainPinMousdownHandler() {
+    activatePage('activate');
+    setAddressByPin();
+    renderPins(adList);
+  }
+
+  var mainPin = document.querySelector('.map__pin--main');
+  mainPin.addEventListener('mousedown', mainPinMousdownHandler);
 }
 
-/**
- * activate page by press enter
- * @param {*} evt
- */
-function mainPinKeydownHandler(evt) {
-  if (evt.keyCode === KEY_ENTER_CODE) {
-    mainPinMousdownHandler();
+
+function addMainPinKeydownListener(adList) {
+  /**
+   * activate page by press enter
+   * @param {*} evt
+   */
+  function mainPinKeydownHandler(evt) {
+    if (evt.keyCode === KEY_ENTER_CODE) {
+      activatePage('activate');
+      setAddressByPin();
+      renderPins(adList);
+    }
   }
+
+  var mainPin = document.querySelector('.map__pin--main');
+  mainPin.addEventListener('keydown', mainPinKeydownHandler);
 }
+
 
 /**
  * synchronise timeIn and timeOut by click on timeIn
@@ -431,9 +446,9 @@ var adList = generateAdList();
 activatePage('deactivate');
 
 // обработчики, которые активирует карту по нажатию на пин
-var mainPin = document.querySelector('.map__pin--main');
-mainPin.addEventListener('mousedown', mainPinMousdownHandler);
-mainPin.addEventListener('keydown', mainPinKeydownHandler);
+
+addMainPinClickListener(adList);
+addMainPinKeydownListener(adList)
 
 // валидация формы
 var formBtn = document.querySelector('.ad-form__submit');
