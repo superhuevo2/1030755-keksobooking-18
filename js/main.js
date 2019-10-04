@@ -4,7 +4,8 @@ var TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var CORRECT_PIN_X = 25;
-var CORRECT_PIN_Y = 70;
+var CORRECT_PIN_Y = 40;
+var KEY_ENTER_CODE = 13;
 
 // функции
 /**
@@ -45,6 +46,7 @@ function isFeatureInList(featureList, feature) {
   return true;
 }
 
+
 /**
  * generate a list of links to images.
  * @return {array} a list of links to images.
@@ -60,6 +62,7 @@ function genAvatar() {
   }
   return avatar;
 }
+
 /**
  *generate a list of links
  * @return {array} a list of photos' links
@@ -115,24 +118,22 @@ function genPhotoEl(element, linksList) {
   return fragment;
 }
 
+
 /**
- * to convert a key from readable form
- * @param {string} key
+ * to convert a type from a readable form
+ * @param {string} type
  * @return {string}
  */
-function defineTypeOfHouse(key) {
-  if (key === 'flat') {
-    return 'Квартира';
-  } else if (key === 'bungalo') {
-    return 'Бунгало';
-  } else if (key === 'house') {
-    return 'Дом';
-  } else if (key === 'palace') {
-    return 'Дворец';
-  } else {
-    return 'Неизвестный тип';
-  }
+function defineTypeOfHouse(type) {
+  var container = {
+    'flat': 'Квартира',
+    'bungalo': 'Бунгало',
+    'house': 'Дом',
+    'palace': 'Дворец',
+  };
+  return container[type] || 'Неизвестный тип';
 }
+
 
 /**
  * remove elements from objFrom if those elements dont exist in objectList
@@ -148,6 +149,7 @@ function removeRedundantObjects(objFrom, objectList, determinant) {
     }
   }
 }
+
 
 /**
  * generate a list of 8 advertisements.
@@ -188,28 +190,14 @@ function generateAdList() {
   }
   return adList;
 }
+
 /**
- * create a document fragment from template and data.
- * @param {object} template a template for copying.
- * @param {array} objList a list from wich data writes.
- * @return {object} a fragment of DOM.
+ * create card which contain information about an offer
+ * @param {*} template
+ * @param {*} adObj
+ * @return {Object} document.fragment obj of rent offer
  */
-function makePins(template, objList) {
-  var fragment = document.createDocumentFragment();
-  for (var i = 0; i < objList.length; i++) {
-    var element = template.cloneNode(true);
-    var image = element.querySelector('img');
-    element.setAttribute('style', 'left: ' + (objList[i].location.x - CORRECT_PIN_X)
-        + 'px; top: ' + (objList[i].location.y - CORRECT_PIN_Y) + 'px');
-    image.setAttribute('src', objList[i].author.avatar);
-    image.setAttribute('alt', objList[i].offer.title);
-
-    fragment.appendChild(element);
-  }
-  return fragment;
-}
-
-function createCard(template, obList) {
+function createCard(template, adObj) {
   var element = template.cloneNode(true);
 
   var title = element.querySelector('.popup__title');
@@ -223,22 +211,216 @@ function createCard(template, obList) {
   var photos = element.querySelector('.popup__photos');
   var avatar = element.querySelector('.popup__avatar');
 
-  title.textContent = obList[0].offer.title;
-  address.textContent = obList[0].offer.address;
-  price.textContent = obList[0].offer.price + '₽/ночь';
-  type.textContent = defineTypeOfHouse(obList[0].offer.type);
-  capacity.textContent = obList[0].offer.rooms + ' комнаты для '
-      + obList[0].offer.guests + ' гостей';
-  time.textContent = 'Заезд после ' + obList[0].offer.checkin
-      + ', выезд до ' + obList[0].offer.checkout;
+  title.textContent = adObj.offer.title;
+  address.textContent = adObj.offer.address;
+  price.textContent = adObj.offer.price + '₽/ночь';
+  type.textContent = defineTypeOfHouse(adObj.offer.type);
+  capacity.textContent = adObj.offer.rooms + ' комнаты для '
+      + adObj.offer.guests + ' гостей';
+  time.textContent = 'Заезд после ' + adObj.offer.checkin
+      + ', выезд до ' + adObj.offer.checkout;
 
-  removeRedundantObjects(featuresList, obList[0].offer.features, isFeatureInList);
-  description.textContent = obList[0].offer.description;
-  photos.appendChild(genPhotoEl(photos.firstElementChild, obList[0].offer.photos));
+  removeRedundantObjects(featuresList, adObj.offer.features, isFeatureInList);
+  description.textContent = adObj.offer.description;
+  photos.appendChild(genPhotoEl(photos.firstElementChild, adObj.offer.photos));
   photos.removeChild(photos.firstElementChild);
-  avatar.setAttribute('src', obList[0].author.avatar);
+  avatar.setAttribute('src', adObj.author.avatar);
 
   return element;
+}
+
+/**
+ * make element active
+ * @param {*} element
+ */
+function removeDisabledAttr(element) {
+  element.removeAttribute('disabled');
+}
+
+/**
+ * create a document fragment from template and data.
+ * @param {object} template a template for copying.
+ * @param {array} objList a list from wich data is written.
+ * @return {object} a fragment of DOM.
+ */
+function makePins(template, objList) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < objList.length; i++) {
+    var element = template.cloneNode(true);
+    var image = element.querySelector('img');
+    element.style.top = (objList[i].location.y - CORRECT_PIN_Y) + 'px';
+    element.style.left = (objList[i].location.x - CORRECT_PIN_X) + 'px';
+    image.setAttribute('src', objList[i].author.avatar);
+    image.setAttribute('alt', objList[i].offer.title);
+
+    fragment.appendChild(element);
+  }
+  return fragment;
+}
+
+
+function pinClickHandler() {
+  mapField.insertBefore(createCard(cardTemplate, adList[0]), filterContainer);
+}
+
+/**
+ * synchronise value between objects
+ * @param {String} value
+ * @param {object} target
+ */
+function synchroniseValue(value, target) {
+  for (var i = 0; i < target.options.length; i++) {
+    if (target.options[i].value === value) {
+      target.options[i].selected = true;
+    }
+  }
+}
+
+/**
+ * synchronise timeIn and timeOut by click on timeIn
+ * @param {*} evt
+ */
+function timeInClickHandler(evt) {
+  var timeInValue = evt.target.value;
+  var timeOut = document.querySelector('#timeout');
+  synchroniseValue(timeInValue, timeOut);
+}
+
+/**
+ * synchronise timeIn and timeOut by click on timeOut
+ * @param {*} evt
+ */
+function timeOutClickHandler(evt) {
+  var timeOutValue = evt.target.value;
+  var timeIn = document.querySelector('#timein');
+  synchroniseValue(timeOutValue, timeIn);
+}
+
+/**
+ * checks whether number of rooms suit number of guests
+ * @return {boolean}
+ */
+function isRoomsSuitableGuests() {
+  var roomNumber = document.querySelector('#room_number')
+      .querySelector('option:checked')
+      .getAttribute('value');
+  var guestNumber = document.querySelector('#capacity')
+    .querySelector('option:checked')
+    .getAttribute('value');
+
+  if (Number(roomNumber) === 100) {
+    return Number(guestNumber) === 0;
+  }
+  if (Number(guestNumber) === 0) {
+    return Number(roomNumber) === 100;
+  }
+  return Number(roomNumber) >= Number(guestNumber);
+}
+
+/**
+ * check whether rooms are suitable for guests
+ */
+function validateRoomsAndGuests() {
+  var rooms = document.querySelector('#room_number');
+
+  if (!isRoomsSuitableGuests()) {
+    rooms.setCustomValidity('Количество комнат должно соответствовать количеству гостей');
+  } else {
+    rooms.setCustomValidity('');
+  }
+}
+
+
+function activateMapAndForm() {
+  mapField.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  mapFiltersSelect.forEach(removeDisabledAttr);
+  mapFiltersFieldset.forEach(removeDisabledAttr);
+  adFormFieldset.forEach(removeDisabledAttr);
+}
+
+/**
+ * writes pin's coordinate in the address input
+ */
+function setAddressByPin() {
+  var pin = document.querySelector('.map__pin--main');
+  var addressInput = document.querySelector('#address');
+  var location = {
+    'x': null,
+    'y': null
+  };
+  var topCoordinate = pin.style.top;
+  var leftCoordinate = pin.style.left;
+  location.x = Number(topCoordinate.slice(0, topCoordinate.length - 2)) + CORRECT_PIN_X;
+  location.y = Number(leftCoordinate.slice(0, topCoordinate.length - 2)) + CORRECT_PIN_Y;
+  addressInput.value = location.x + ' ' + location.y;
+}
+
+/**
+ * render pins on the map
+ * @param {Array} objList list of objects for making pins
+ */
+function renderPins(objList) {
+  var pinsField = document.querySelector('.map__pins');
+  var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+
+  pinsField.appendChild(makePins(pinTemplate, objList));
+}
+
+
+function addPinClickListener() {
+  var pinList = document.querySelectorAll('.map__pin[type="button"]');
+
+  for (var el = 0; el < pinList.length; el++) {
+    pinList[el].addEventListener('click', pinClickHandler);
+  }
+}
+
+/**
+ * validate form before submit
+ */
+function addValidateFormListeners() {
+  var formBtn = document.querySelector('.ad-form__submit');
+  var timeIn = document.querySelector('#timein');
+  var timeOut = document.querySelector('#timeout');
+
+  formBtn.addEventListener('click', validateRoomsAndGuests);
+
+  timeIn.addEventListener('input', timeInClickHandler);
+  timeOut.addEventListener('input', timeOutClickHandler);
+
+}
+
+
+/**
+ * activate page
+ * @param {string} adList
+ */
+function activatePage(adList) {
+
+  activateMapAndForm();
+  setAddressByPin();
+  renderPins(adList);
+  addPinClickListener();
+  addValidateFormListeners();
+}
+
+/**
+ * activate page by mousedown on mainPin
+ */
+function mainPinMousdownHandler() {
+  activatePage(adList);
+
+}
+
+/**
+ * activate page by press enter
+ * @param {*} evt
+ */
+function mainPinKeydownHandler(evt) {
+  if (evt.keyCode === KEY_ENTER_CODE) {
+    activatePage(adList);
+  }
 }
 
 // работа с данными
@@ -246,14 +428,21 @@ var adList = generateAdList();
 
 // работа с дом
 var mapField = document.querySelector('.map');
-mapField.classList.remove('map--fade');
-
-var pinsField = document.querySelector('.map__pins');
-var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-
-pinsField.appendChild(makePins(pinTemplate, adList));
-
+var mapFiltersSelect = document.querySelector('.map__filters').querySelectorAll('select');
+var mapFiltersFieldset = document.querySelector('.map__filters').querySelectorAll('fieldset');
+var adForm = document.querySelector('.ad-form');
+var adFormFieldset = adForm.querySelectorAll('fieldset');
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-var filterContainer = mapField.querySelector('.map__filters-container');
+var filterContainer = document.querySelector('.map__filters-container');
 
-mapField.insertBefore(createCard(cardTemplate, adList), filterContainer);
+
+// делаю страницу неактивной
+
+mapField.classList.add('map--faded');
+
+
+// обработчики, которые активирует карту по нажатию на пин
+
+var mainPin = document.querySelector('.map__pin--main');
+mainPin.addEventListener('keydown', mainPinKeydownHandler);
+mainPin.addEventListener('click', mainPinMousdownHandler);
