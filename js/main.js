@@ -1,40 +1,32 @@
 'use strict';
+(function () {
+  var activateMap = window.map.activateMap;
+  var deactivateMap = window.map.deactivateMap;
+  var activateForm = window.form.activateForm;
+  var validateForm = window.form.validateForm;
+  var adList = window.data.adList;
 
+  /**
+   * activate page
+   * @param {array} data
+   */
+  function activatePage(data) {
+    activateMap(data);
+    activateForm();
+    validateForm();
+  }
 
-/**
- * activate page
- * @param {string} adList
- */
-function activatePage(adList) {
-  window.map.activateMap();
-  window.form.activateForm();
-  window.map.setAddressByPin();
-  window.map.renderPins(adList);
-  window.map.addPinClickListener();
-  window.form.addValidateFormListeners();
-}
+  /**
+   * activate page by mousedown on mainPin
+   */
+  function mainPinMousdownHandler() {
+    activatePage(adList);
+    mainPin.removeEventListener('click', mainPinMousdownHandler);
+  }
 
-/**
- * activate page by mousedown on mainPin
- */
-function mainPinMousdownHandler() {
-  activatePage(window.data.adList);
-  mainPin.removeEventListener('click', mainPinMousdownHandler);
-}
+  deactivateMap();
 
-// делаю страницу неактивной
+  var mainPin = document.querySelector('.map__pin--main');
+  mainPin.addEventListener('click', mainPinMousdownHandler);
 
-window.map.mapField.classList.add('map--faded');
-
-
-// обработчики, которые активирует карту по нажатию на пин
-
-var mainPin = document.querySelector('.map__pin--main');
-// mainPin.addEventListener('click', function () {
-//   if (notActivated) {
-//     activatePage(adList);
-//     notAtvivated = false;
-//   }
-// });
-
-mainPin.addEventListener('click', mainPinMousdownHandler);
+})();

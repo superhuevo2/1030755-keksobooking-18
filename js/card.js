@@ -69,12 +69,12 @@
 
   /**
    * create card which contain information about an offer
-   * @param {*} template
-   * @param {*} adObj
+   * @param {object} data
    * @return {Object} document.fragment obj of rent offer
    */
-  function createCard(template, adObj) {
-    var element = template.cloneNode(true);
+  function createCardElement(data) {
+    var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+    var element = cardTemplate.cloneNode(true);
 
     var title = element.querySelector('.popup__title');
     var address = element.querySelector(' .popup__text--address');
@@ -87,26 +87,26 @@
     var photos = element.querySelector('.popup__photos');
     var avatar = element.querySelector('.popup__avatar');
 
-    title.textContent = adObj.offer.title;
-    address.textContent = adObj.offer.address;
-    price.textContent = adObj.offer.price + '₽/ночь';
-    type.textContent = defineTypeOfHouse(adObj.offer.type);
-    capacity.textContent = adObj.offer.rooms + ' комнаты для '
-        + adObj.offer.guests + ' гостей';
-    time.textContent = 'Заезд после ' + adObj.offer.checkin
-        + ', выезд до ' + adObj.offer.checkout;
+    title.textContent = data.offer.title;
+    address.textContent = data.offer.address;
+    price.textContent = data.offer.price + '₽/ночь';
+    type.textContent = defineTypeOfHouse(data.offer.type);
+    capacity.textContent = data.offer.rooms + ' комнаты для '
+        + data.offer.guests + ' гостей';
+    time.textContent = 'Заезд после ' + data.offer.checkin
+        + ', выезд до ' + data.offer.checkout;
 
-    removeRedundantObjects(featuresList, adObj.offer.features, isFeatureInList);
-    description.textContent = adObj.offer.description;
-    photos.appendChild(genPhotoEl(photos.firstElementChild, adObj.offer.photos));
+    removeRedundantObjects(featuresList, data.offer.features, isFeatureInList);
+    description.textContent = data.offer.description;
+    photos.appendChild(genPhotoEl(photos.firstElementChild, data.offer.photos));
     photos.removeChild(photos.firstElementChild);
-    avatar.setAttribute('src', adObj.author.avatar);
+    avatar.setAttribute('src', data.author.avatar);
 
     return element;
   }
 
   window.card = {
-    createCard: createCard
+    createCardElement: createCardElement
   };
 })();
 

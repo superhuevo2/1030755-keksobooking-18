@@ -5,29 +5,50 @@
   var CORRECT_PIN_Y = 40;
 
   /**
-   * create a document fragment from template and data.
-   * @param {object} template a template for copying.
-   * @param {array} objList a list from wich data is written.
-   * @return {object} a fragment of DOM.
+   * create a pin
+   * @param {object} data contains location, title and link to an image
+   * @return {object} DOM element pin
    */
-  function makePins(template, objList) {
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < objList.length; i++) {
-      var element = template.cloneNode(true);
-      var image = element.querySelector('img');
-      element.style.top = (objList[i].location.y - CORRECT_PIN_Y) + 'px';
-      element.style.left = (objList[i].location.x - CORRECT_PIN_X) + 'px';
-      image.setAttribute('src', objList[i].author.avatar);
-      image.setAttribute('alt', objList[i].offer.title);
+  function createPin(data) {
+    var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+    var element = pinTemplate.cloneNode(true);
+    var image = element.querySelector('img');
 
-      fragment.appendChild(element);
+    element.style.top = (data.location.y - CORRECT_PIN_Y) + 'px';
+    element.style.left = (data.location.x - CORRECT_PIN_X) + 'px';
+    image.setAttribute('src', data.author.avatar);
+    image.setAttribute('alt', data.offer.title);
+
+    return element;
+  }
+
+  function createPins(dataList) {
+    var pinsList = [];
+    for (var i = 0; i < dataList.length; i++) {
+      pinsList.push(createPin(dataList[i]));
     }
+
+    return pinsList;
+  }
+
+  /**
+   * create a document fragment from template and data.
+   * @param {array} pinList a list from which data is written.
+   * @return {object} a fragment of DOM elements pins.
+   */
+  function createPinsElement(pinList) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < pinList.length; i++) {
+      fragment.appendChild(pinList[i]);
+    }
+
     return fragment;
   }
 
   window.pin = {
     CORRECT_PIN_X: CORRECT_PIN_X,
     CORRECT_PIN_Y: CORRECT_PIN_Y,
-    makePins: makePins
+    createPins: createPins,
+    createPinsElement: createPinsElement
   };
 })();

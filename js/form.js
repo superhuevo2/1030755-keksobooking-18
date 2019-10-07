@@ -100,6 +100,6 @@
 
   window.form = {
     activateForm: activateForm,
-    addValidateFormListeners: addValidateFormListeners
+    validateForm: addValidateFormListeners
   };
 })();

@@ -2,16 +2,25 @@
 
 (function () {
   var mapField = document.querySelector('.map');
+  var createPins = window.pin.createPins;
+  var createPinsElement = window.pin.createPinsElement;
+  var createCardElement = window.card.createCardElement;
 
-
-  function activateMap() {
+  function activateMap(adList) {
     mapField.classList.remove('map--faded');
+    renderPins(adList);
+    addPinClickListener(adList);
+  }
+
+  function deactivateMap() {
+    mapField.classList.add('map--faded');
   }
 
   /**
    * writes pin's coordinate in the address input
    */
-  function setAddressByPin() {
+  /* function setAddressByPin() {
+    // функция отвечает за изменение инпута адрес при взаимодействии с пином
     var pin = document.querySelector('.map__pin--main');
     var addressInput = document.querySelector('#address');
     var location = {
@@ -23,42 +32,46 @@
     location.x = Number(topCoordinate.slice(0, topCoordinate.length - 2)) + window.pin.CORRECT_PIN_X;
     location.y = Number(leftCoordinate.slice(0, topCoordinate.length - 2)) + window.pin.CORRECT_PIN_Y;
     addressInput.value = location.x + ' ' + location.y;
-  }
+  } */
 
   /**
    * render pins on the map
    * @param {Array} objList list of objects for making pins
    */
   function renderPins(objList) {
+    var pins = createPins(objList);
+    var pinsElement = createPinsElement(pins);
     var pinsField = document.querySelector('.map__pins');
-    var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
-    pinsField.appendChild(window.pin.makePins(pinTemplate, objList));
+    pinsField.appendChild(pinsElement);
   }
 
 
-  function pinClickHandler() {
-    var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-    var filterContainer = document.querySelector('.map__filters-container');
-
-    mapField.insertBefore(window.card.createCard(cardTemplate, window.data.adList[0]), filterContainer);
-  }
-
-
-  function addPinClickListener() {
+  function addPinClickListener(adList) {
     var pinList = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    // объявлена внутри
+    function pinClickHandler() {
+      var filterContainer = document.querySelector('.map__filters-container');
+      // mapField - глобальная переменная
+      mapField.insertBefore(createCardElement(adList[0]), filterContainer);
+    }
 
     for (var el = 0; el < pinList.length; el++) {
       pinList[el].addEventListener('click', pinClickHandler);
     }
   }
 
+
+  /* function addMainPinDragListener() {
+    // будет перемещение метки
+    var mainPin = document.querySelector('.map__pin--main');
+
+  } */
+
   window.map = {
     mapField: mapField,
     activateMap: activateMap,
-    setAddressByPin: setAddressByPin,
-    renderPins: renderPins,
-    addPinClickListener: addPinClickListener
+    deactivateMap: deactivateMap
   };
 })();
 
