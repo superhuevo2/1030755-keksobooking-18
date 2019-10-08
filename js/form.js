@@ -1,5 +1,23 @@
 'use strict';
 (function () {
+
+  var adForm = document.querySelector('.ad-form');
+  var adFormFieldset = adForm.querySelectorAll('fieldset');
+  var mapFiltersSelect = document.querySelector('.map__filters').querySelectorAll('select');
+  var mapFiltersFieldset = document.querySelector('.map__filters').querySelectorAll('fieldset');
+
+  var roomNumber = document.querySelector('#room_number')
+      .querySelector('option:checked')
+      .getAttribute('value');
+  var guestNumber = document.querySelector('#capacity')
+      .querySelector('option:checked')
+      .getAttribute('value');
+  var rooms = document.querySelector('#room_number');
+
+  var formBtn = document.querySelector('.ad-form__submit');
+  var timeIn = document.querySelector('#timein');
+  var timeOut = document.querySelector('#timeout');
+
   /**
    * make element active
    * @param {*} element
@@ -12,11 +30,6 @@
    * make the form active
    */
   function activateForm() {
-    var adForm = document.querySelector('.ad-form');
-    var adFormFieldset = adForm.querySelectorAll('fieldset');
-    var mapFiltersSelect = document.querySelector('.map__filters').querySelectorAll('select');
-    var mapFiltersFieldset = document.querySelector('.map__filters').querySelectorAll('fieldset');
-
     adForm.classList.remove('ad-form--disabled');
     mapFiltersSelect.forEach(removeDisabledAttr);
     mapFiltersFieldset.forEach(removeDisabledAttr);
@@ -54,13 +67,6 @@
    * @return {boolean}
    */
   function isRoomsSuitableGuests() {
-    var roomNumber = document.querySelector('#room_number')
-        .querySelector('option:checked')
-        .getAttribute('value');
-    var guestNumber = document.querySelector('#capacity')
-      .querySelector('option:checked')
-      .getAttribute('value');
-
     if (Number(roomNumber) === 100) {
       return Number(guestNumber) === 0;
     }
@@ -74,7 +80,6 @@
    * check whether rooms are suitable for guests
    */
   function validateRoomsAndGuests() {
-    var rooms = document.querySelector('#room_number');
 
     if (!isRoomsSuitableGuests()) {
       rooms.setCustomValidity('Количество комнат должно соответствовать количеству гостей');
@@ -87,10 +92,6 @@
    * validate form before submit
    */
   function addValidateFormListeners() {
-    var formBtn = document.querySelector('.ad-form__submit');
-    var timeIn = document.querySelector('#timein');
-    var timeOut = document.querySelector('#timeout');
-
     formBtn.addEventListener('click', validateRoomsAndGuests);
 
     addTimeClickListener(timeIn, timeOut);

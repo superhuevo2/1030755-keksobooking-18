@@ -4,14 +4,16 @@
   var CORRECT_PIN_X = 25;
   var CORRECT_PIN_Y = 40;
 
+  var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+
   /**
    * create a pin
+   * @param {object} template
    * @param {object} data contains location, title and link to an image
    * @return {object} DOM element pin
    */
-  function createPin(data) {
-    var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-    var element = pinTemplate.cloneNode(true);
+  function createPin(template, data) {
+    var element = template.cloneNode(true);
     var image = element.querySelector('img');
 
     element.style.top = (data.location.y - CORRECT_PIN_Y) + 'px';
@@ -25,7 +27,7 @@
   function createPins(dataList) {
     var pinsList = [];
     for (var i = 0; i < dataList.length; i++) {
-      pinsList.push(createPin(dataList[i]));
+      pinsList.push(createPin(pinTemplate, dataList[i]));
     }
 
     return pinsList;

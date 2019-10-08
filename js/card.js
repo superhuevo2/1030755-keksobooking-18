@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+
   /**
    * finds whether there is a feature in a fearureList
    * @param {ArrayLike} featureList
@@ -69,12 +70,12 @@
 
   /**
    * create card which contain information about an offer
+   * @param {object} template
    * @param {object} data
    * @return {Object} document.fragment obj of rent offer
    */
-  function createCardElement(data) {
-    var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-    var element = cardTemplate.cloneNode(true);
+  function createCardElement(template, data) {
+    var element = template.cloneNode(true);
 
     var title = element.querySelector('.popup__title');
     var address = element.querySelector(' .popup__text--address');

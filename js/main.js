@@ -6,6 +6,8 @@
   var validateForm = window.form.validateForm;
   var adList = window.data.adList;
 
+  var mainPin = document.querySelector('.map__pin--main');
+
   /**
    * activate page
    * @param {array} data
@@ -26,7 +28,6 @@
 
   deactivateMap();
 
-  var mainPin = document.querySelector('.map__pin--main');
   mainPin.addEventListener('click', mainPinMousdownHandler);
 
 })();

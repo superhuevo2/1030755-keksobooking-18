@@ -1,10 +1,14 @@
 'use strict';
 
 (function () {
-  var mapField = document.querySelector('.map');
   var createPins = window.pin.createPins;
   var createPinsElement = window.pin.createPinsElement;
   var createCardElement = window.card.createCardElement;
+
+  var mapField = document.querySelector('.map');
+  var pinsField = document.querySelector('.map__pins');
+  var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+  var filterContainer = document.querySelector('.map__filters-container');
 
   function activateMap(adList) {
     mapField.classList.remove('map--faded');
@@ -41,7 +45,6 @@
   function renderPins(objList) {
     var pins = createPins(objList);
     var pinsElement = createPinsElement(pins);
-    var pinsField = document.querySelector('.map__pins');
 
     pinsField.appendChild(pinsElement);
   }
@@ -49,11 +52,9 @@
 
   function addPinClickListener(adList) {
     var pinList = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    // объявлена внутри
+
     function pinClickHandler() {
-      var filterContainer = document.querySelector('.map__filters-container');
-      // mapField - глобальная переменная
-      mapField.insertBefore(createCardElement(adList[0]), filterContainer);
+      mapField.insertBefore(createCardElement(cardTemplate, adList[0]), filterContainer);
     }
 
     for (var el = 0; el < pinList.length; el++) {
