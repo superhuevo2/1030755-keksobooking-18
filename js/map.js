@@ -2,18 +2,10 @@
 
 (function () {
   var createPins = window.pin.createPins;
-  var createPinsElement = window.pin.createPinsElement;
-  var createCardElement = window.card.createCardElement;
-
-  var mapField = document.querySelector('.map');
-  var pinsField = document.querySelector('.map__pins');
-  var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-  var filterContainer = document.querySelector('.map__filters-container');
 
   function activateMap(adList) {
     mapField.classList.remove('map--faded');
     renderPins(adList);
-    addPinClickListener(adList);
   }
 
   function deactivateMap() {
@@ -43,23 +35,8 @@
    * @param {Array} objList list of objects for making pins
    */
   function renderPins(objList) {
-    var pins = createPins(objList);
-    var pinsElement = createPinsElement(pins);
-
+    var pinsElement = createPins(objList);
     pinsField.appendChild(pinsElement);
-  }
-
-
-  function addPinClickListener(adList) {
-    var pinList = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-
-    function pinClickHandler() {
-      mapField.insertBefore(createCardElement(cardTemplate, adList[0]), filterContainer);
-    }
-
-    for (var el = 0; el < pinList.length; el++) {
-      pinList[el].addEventListener('click', pinClickHandler);
-    }
   }
 
 
@@ -68,6 +45,9 @@
     var mainPin = document.querySelector('.map__pin--main');
 
   } */
+
+  var mapField = document.querySelector('.map');
+  var pinsField = document.querySelector('.map__pins');
 
   window.map = {
     mapField: mapField,

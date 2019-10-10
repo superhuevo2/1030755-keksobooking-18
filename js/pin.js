@@ -4,7 +4,7 @@
   var CORRECT_PIN_X = 25;
   var CORRECT_PIN_Y = 40;
 
-  var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+  var createCard = window.card.createCard;
 
   /**
    * create a pin
@@ -12,7 +12,7 @@
    * @param {object} data contains location, title and link to an image
    * @return {object} DOM element pin
    */
-  function createPin(template, data) {
+  function createPinElement(template, data) {
     var element = template.cloneNode(true);
     var image = element.querySelector('img');
 
@@ -24,33 +24,40 @@
     return element;
   }
 
-  function createPins(dataList) {
-    var pinsList = [];
-    for (var i = 0; i < dataList.length; i++) {
-      pinsList.push(createPin(pinTemplate, dataList[i]));
-    }
-
-    return pinsList;
+  /**
+   * add listener to a pin
+   * @param {object} element pin for adding listener
+   * @param {*} data info about pin
+   */
+  function addPinClickListener(element, data) {
+    element.addEventListener('click', function () {
+      var card = createCard(data);
+      mapField.insertBefore(card, filterContainer);
+    });
   }
 
   /**
-   * create a document fragment from template and data.
-   * @param {array} pinList a list from which data is written.
-   * @return {object} a fragment of DOM elements pins.
+   * create a fragment of DOM contains the pins
+   * @param {array} dataList list of information about pins
+   * @return {object} DOM fragment
    */
-  function createPinsElement(pinList) {
+  function createPins(dataList) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < pinList.length; i++) {
-      fragment.appendChild(pinList[i]);
+    for (var i = 0; i < dataList.length; i++) {
+      var pin = createPinElement(pinTemplate, dataList[i]);
+      addPinClickListener(pin, dataList[i]);
+      fragment.appendChild(pin);
     }
-
     return fragment;
   }
+
+  var mapField = document.querySelector('.map');
+  var filterContainer = document.querySelector('.map__filters-container');
+  var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
   window.pin = {
     CORRECT_PIN_X: CORRECT_PIN_X,
     CORRECT_PIN_Y: CORRECT_PIN_Y,
-    createPins: createPins,
-    createPinsElement: createPinsElement
+    createPins: createPins
   };
 })();

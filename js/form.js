@@ -1,22 +1,11 @@
 'use strict';
 (function () {
-
-  var adForm = document.querySelector('.ad-form');
-  var adFormFieldset = adForm.querySelectorAll('fieldset');
-  var mapFiltersSelect = document.querySelector('.map__filters').querySelectorAll('select');
-  var mapFiltersFieldset = document.querySelector('.map__filters').querySelectorAll('fieldset');
-
-  var roomNumber = document.querySelector('#room_number')
-      .querySelector('option:checked')
-      .getAttribute('value');
-  var guestNumber = document.querySelector('#capacity')
-      .querySelector('option:checked')
-      .getAttribute('value');
-  var rooms = document.querySelector('#room_number');
-
-  var formBtn = document.querySelector('.ad-form__submit');
-  var timeIn = document.querySelector('#timein');
-  var timeOut = document.querySelector('#timeout');
+  var TYPE_TO_PRICE = {
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
+  };
 
   /**
    * make element active
@@ -89,6 +78,16 @@
   }
 
   /**
+   * set attributes min and placeholder according to the type
+   * @param {event} evt
+   */
+  function setPriceFromType(evt) {
+    price.setAttribute('min', TYPE_TO_PRICE[evt.target.value]);
+    price.setAttribute('placeholder', TYPE_TO_PRICE[evt.target.value]);
+
+  }
+
+  /**
    * validate form before submit
    */
   function addValidateFormListeners() {
@@ -96,8 +95,29 @@
 
     addTimeClickListener(timeIn, timeOut);
     addTimeClickListener(timeOut, timeIn);
+
+    typeOfHouse.addEventListener('input', setPriceFromType);
   }
 
+  var adForm = document.querySelector('.ad-form');
+  var adFormFieldset = adForm.querySelectorAll('fieldset');
+  var mapFiltersSelect = document.querySelector('.map__filters').querySelectorAll('select');
+  var mapFiltersFieldset = document.querySelector('.map__filters').querySelectorAll('fieldset');
+
+  var roomNumber = document.querySelector('#room_number')
+      .querySelector('option:checked')
+      .getAttribute('value');
+  var guestNumber = document.querySelector('#capacity')
+      .querySelector('option:checked')
+      .getAttribute('value');
+  var rooms = document.querySelector('#room_number');
+
+  var typeOfHouse = document.querySelector('#type');
+  var price = document.querySelector('#price');
+
+  var formBtn = document.querySelector('.ad-form__submit');
+  var timeIn = document.querySelector('#timein');
+  var timeOut = document.querySelector('#timeout');
 
   window.form = {
     activateForm: activateForm,

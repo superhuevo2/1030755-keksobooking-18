@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var isEsc = window.util.isEsc;
 
   /**
    * finds whether there is a feature in a fearureList
@@ -60,7 +61,6 @@
    * @param {Function} determinant define is an element appropriate or not
    */
   function removeRedundantObjects(objFrom, objectList, determinant) {
-
     for (var i = objFrom.children.length - 1; i >= 0; i--) {
       if (!determinant(objectList, objFrom.children[i])) {
         objFrom.removeChild(objFrom.children[i]);
@@ -106,8 +106,45 @@
     return element;
   }
 
+
+  function removeCard() {
+    var card = document.querySelector('.map__card');
+    document.removeEventListener('keydown', closeKeydownHandler);
+    card.remove();
+  }
+
+  function closeClickHandler() {
+    removeCard();
+  }
+
+
+  function closeKeydownHandler(evt) {
+    if (isEsc(evt)) {
+      removeCard();
+    }
+  }
+
+
+  function addCardListeners(card) {
+    var cardCloseBtn = card.querySelector('.popup__close');
+
+    cardCloseBtn.addEventListener('click', closeClickHandler);
+    document.addEventListener('keydown', closeKeydownHandler);
+  }
+
+
+  function createCard(data) {
+    var card = createCardElement(cardTemplate, data);
+    addCardListeners(card);
+
+    return card;
+  }
+
+  var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+
   window.card = {
-    createCardElement: createCardElement
+    createCard: createCard,
+    removeCard: removeCard
   };
 })();
 
