@@ -3,16 +3,20 @@
   var KEYCODE_ESC = 27;
   var KEYCODE_ENTER = 13;
 
-  function isEsc(evt) {
-    return evt.keyCode === KEYCODE_ESC;
+  function isEscEvent(evt, action) {
+    if (evt.keyCode === KEYCODE_ESC) {
+      action();
+    }
   }
 
-  function isEnter(evt) {
-    return evt.keyCode === KEYCODE_ENTER;
+  function isEnterEvent(evt, action) {
+    if (evt.keyCode === KEYCODE_ENTER) {
+      action();
+    }
   }
 
   window.util = {
-    isEnter: isEnter,
-    isEsc: isEsc
+    isEnterEvent: isEnterEvent,
+    isEscEvent: isEscEvent
   };
 })();

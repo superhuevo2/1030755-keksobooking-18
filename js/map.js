@@ -4,7 +4,7 @@
   var createPins = window.pin.createPins;
   var createPinList = window.pin.createPinList;
   var createCard = window.card.createCard;
-  var isEsc = window.util.isEsc;
+  var isEscEvent = window.util.isEscEvent;
 
   function activateMap(adList) {
     mapField.classList.remove('map--faded');
@@ -46,9 +46,7 @@
 
 
   function closeKeydownHandler(evt) {
-    if (isEsc(evt)) {
-      removeCard();
-    }
+    isEscEvent(evt, removeCard);
   }
 
 
