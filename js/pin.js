@@ -4,8 +4,6 @@
   var CORRECT_PIN_X = 25;
   var CORRECT_PIN_Y = 40;
 
-  var createCard = window.card.createCard;
-
   /**
    * create a pin
    * @param {object} template
@@ -24,40 +22,35 @@
     return element;
   }
 
-  /**
-   * add listener to a pin
-   * @param {object} element pin for adding listener
-   * @param {*} data info about pin
-   */
-  function addPinClickListener(element, data) {
-    element.addEventListener('click', function () {
-      var card = createCard(data);
-      mapField.insertBefore(card, filterContainer);
-    });
+
+  function createPinList(dataList) {
+    var pins = [];
+    for (var i = 0; i < dataList.length; i++) {
+      var pin = createPinElement(pinTemplate, dataList[i]);
+      pins.push(pin);
+    }
+    return pins;
   }
 
   /**
    * create a fragment of DOM contains the pins
-   * @param {array} dataList list of information about pins
+   * @param {array} pinList list of information about pins
    * @return {object} DOM fragment
    */
-  function createPins(dataList) {
+  function createPins(pinList) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < dataList.length; i++) {
-      var pin = createPinElement(pinTemplate, dataList[i]);
-      addPinClickListener(pin, dataList[i]);
-      fragment.appendChild(pin);
+    for (var i = 0; i < pinList.length; i++) {
+      fragment.appendChild(pinList[i]);
     }
     return fragment;
   }
 
-  var mapField = document.querySelector('.map');
-  var filterContainer = document.querySelector('.map__filters-container');
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
   window.pin = {
     CORRECT_PIN_X: CORRECT_PIN_X,
     CORRECT_PIN_Y: CORRECT_PIN_Y,
+    createPinList: createPinList,
     createPins: createPins
   };
 })();

@@ -56,6 +56,13 @@
    * @return {boolean}
    */
   function isRoomsSuitableGuests() {
+    var roomNumber = document.querySelector('#room_number')
+        .querySelector('option:checked')
+        .getAttribute('value');
+    var guestNumber = document.querySelector('#capacity')
+        .querySelector('option:checked')
+        .getAttribute('value');
+
     if (Number(roomNumber) === 100) {
       return Number(guestNumber) === 0;
     }
@@ -104,12 +111,6 @@
   var mapFiltersSelect = document.querySelector('.map__filters').querySelectorAll('select');
   var mapFiltersFieldset = document.querySelector('.map__filters').querySelectorAll('fieldset');
 
-  var roomNumber = document.querySelector('#room_number')
-      .querySelector('option:checked')
-      .getAttribute('value');
-  var guestNumber = document.querySelector('#capacity')
-      .querySelector('option:checked')
-      .getAttribute('value');
   var rooms = document.querySelector('#room_number');
 
   var typeOfHouse = document.querySelector('#type');
