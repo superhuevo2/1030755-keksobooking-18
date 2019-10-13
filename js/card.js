@@ -48,12 +48,11 @@
 
   /**
    * create card which contain information about an offer
-   * @param {object} template
    * @param {object} data
    * @return {Object} document.fragment obj of rent offer
    */
-  function createCardElement(template, data) {
-    var element = template.cloneNode(true);
+  function createCard(data) {
+    var element = cardTemplate.cloneNode(true);
 
     var title = element.querySelector('.popup__title');
     var address = element.querySelector(' .popup__text--address');
@@ -81,13 +80,6 @@
     avatar.setAttribute('src', data.author.avatar);
 
     return element;
-  }
-
-
-  function createCard(data) {
-    var card = createCardElement(cardTemplate, data);
-
-    return card;
   }
 
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');

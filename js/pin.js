@@ -22,25 +22,16 @@
     return element;
   }
 
-
-  function createPinList(dataList) {
-    var pins = [];
-    for (var i = 0; i < dataList.length; i++) {
-      var pin = createPinElement(pinTemplate, dataList[i]);
-      pins.push(pin);
-    }
-    return pins;
-  }
-
   /**
    * create a fragment of DOM contains the pins
-   * @param {array} pinList list of information about pins
+   * @param {array} dataList list of information about pins
    * @return {object} DOM fragment
    */
-  function createPins(pinList) {
+  function createPins(dataList) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < pinList.length; i++) {
-      fragment.appendChild(pinList[i]);
+    for (var i = 0; i < dataList.length; i++) {
+      var pin = createPinElement(pinTemplate, dataList[i]);
+      fragment.appendChild(pin);
     }
     return fragment;
   }
@@ -50,7 +41,6 @@
   window.pin = {
     CORRECT_PIN_X: CORRECT_PIN_X,
     CORRECT_PIN_Y: CORRECT_PIN_Y,
-    createPinList: createPinList,
     createPins: createPins
   };
 })();

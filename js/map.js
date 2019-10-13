@@ -2,7 +2,6 @@
 
 (function () {
   var createPins = window.pin.createPins;
-  var createPinList = window.pin.createPinList;
   var createCard = window.card.createCard;
   var isEscEvent = window.util.isEscEvent;
 
@@ -40,10 +39,6 @@
     }
   }
 
-  function closeClickHandler() {
-    removeCard();
-  }
-
 
   function closeKeydownHandler(evt) {
     isEscEvent(evt, removeCard);
@@ -53,7 +48,7 @@
   function addCardListeners(card) {
     var cardCloseBtn = card.querySelector('.popup__close');
 
-    cardCloseBtn.addEventListener('click', closeClickHandler);
+    cardCloseBtn.addEventListener('click', removeCard);
     document.addEventListener('keydown', closeKeydownHandler);
   }
 
@@ -65,10 +60,7 @@
    */
   function addPinClickListener(element, data) {
     element.addEventListener('click', function () {
-      var currentCard = document.querySelector('.map__card');
-      if (currentCard !== null) {
-        currentCard.remove();
-      }
+      removeCard();
       var card = createCard(data);
       mapField.insertBefore(card, filterContainer);
       addCardListeners(card);
@@ -80,11 +72,10 @@
    * @param {Array} objList list of objects for making pins
    */
   function renderPins(objList) {
-    var pins = createPinList(objList);
-    for (var i = 0; i < pins.length; i++) {
-      addPinClickListener(pins[i], objList[i]);
+    var pinElements = createPins(objList);
+    for (var i = 0; i < pinElements.children.length; i++) {
+      addPinClickListener(pinElements.children[i], objList[i]);
     }
-    var pinElements = createPins(pins);
     pinsField.appendChild(pinElements);
   }
 
