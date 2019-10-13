@@ -4,7 +4,7 @@
   var deactivateMap = window.map.deactivateMap;
   var activateForm = window.form.activateForm;
   var validateForm = window.form.validateForm;
-  var adList = window.data.adList;
+  var generateAdList = window.data.generateAdList;
 
   var mainPin = document.querySelector('.map__pin--main');
 
@@ -26,6 +26,7 @@
     mainPin.removeEventListener('click', mainPinMousdownHandler);
   }
 
+  var adList = generateAdList();
   deactivateMap();
 
   mainPin.addEventListener('click', mainPinMousdownHandler);

@@ -2,18 +2,13 @@
 
 (function () {
   var createPins = window.pin.createPins;
-  var createPinsElement = window.pin.createPinsElement;
-  var createCardElement = window.card.createCardElement;
-
-  var mapField = document.querySelector('.map');
-  var pinsField = document.querySelector('.map__pins');
-  var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-  var filterContainer = document.querySelector('.map__filters-container');
+  var createCard = window.card.createCard;
+  var isEscEvent = window.util.isEscEvent;
 
   function activateMap(adList) {
     mapField.classList.remove('map--faded');
     renderPins(adList);
-    addPinClickListener(adList);
+    setAddressByPin();
   }
 
   function deactivateMap() {
@@ -23,10 +18,7 @@
   /**
    * writes pin's coordinate in the address input
    */
-  /* function setAddressByPin() {
-    // функция отвечает за изменение инпута адрес при взаимодействии с пином
-    var pin = document.querySelector('.map__pin--main');
-    var addressInput = document.querySelector('#address');
+  function setAddressByPin() {
     var location = {
       'x': null,
       'y': null
@@ -36,30 +28,55 @@
     location.x = Number(topCoordinate.slice(0, topCoordinate.length - 2)) + window.pin.CORRECT_PIN_X;
     location.y = Number(leftCoordinate.slice(0, topCoordinate.length - 2)) + window.pin.CORRECT_PIN_Y;
     addressInput.value = location.x + ' ' + location.y;
-  } */
+  }
+
+
+  function removeCard() {
+    var card = document.querySelector('.map__card');
+    if (card !== null) {
+      document.removeEventListener('keydown', closeKeydownHandler);
+      card.remove();
+    }
+  }
+
+
+  function closeKeydownHandler(evt) {
+    isEscEvent(evt, removeCard);
+  }
+
+
+  function addCardListeners(card) {
+    var cardCloseBtn = card.querySelector('.popup__close');
+
+    cardCloseBtn.addEventListener('click', removeCard);
+    document.addEventListener('keydown', closeKeydownHandler);
+  }
+
+
+  /**
+   * add listener to a pin
+   * @param {object} element pin for adding listener
+   * @param {*} data info about pin
+   */
+  function addPinClickListener(element, data) {
+    element.addEventListener('click', function () {
+      removeCard();
+      var card = createCard(data);
+      mapField.insertBefore(card, filterContainer);
+      addCardListeners(card);
+    });
+  }
 
   /**
    * render pins on the map
    * @param {Array} objList list of objects for making pins
    */
   function renderPins(objList) {
-    var pins = createPins(objList);
-    var pinsElement = createPinsElement(pins);
-
-    pinsField.appendChild(pinsElement);
-  }
-
-
-  function addPinClickListener(adList) {
-    var pinList = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-
-    function pinClickHandler() {
-      mapField.insertBefore(createCardElement(cardTemplate, adList[0]), filterContainer);
+    var pinElements = createPins(objList);
+    for (var i = 0; i < pinElements.children.length; i++) {
+      addPinClickListener(pinElements.children[i], objList[i]);
     }
-
-    for (var el = 0; el < pinList.length; el++) {
-      pinList[el].addEventListener('click', pinClickHandler);
-    }
+    pinsField.appendChild(pinElements);
   }
 
 
@@ -68,6 +85,12 @@
     var mainPin = document.querySelector('.map__pin--main');
 
   } */
+
+  var mapField = document.querySelector('.map');
+  var filterContainer = document.querySelector('.map__filters-container');
+  var pinsField = document.querySelector('.map__pins');
+  var pin = document.querySelector('.map__pin--main');
+  var addressInput = document.querySelector('#address');
 
   window.map = {
     mapField: mapField,

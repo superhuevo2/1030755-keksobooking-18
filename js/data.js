@@ -117,10 +117,8 @@
     return adList;
   }
 
-  var adList = generateAdList();
-
   window.data = {
-    adList: adList
+    generateAdList: generateAdList
   };
 })();
 
