@@ -3,6 +3,7 @@
 (function () {
   var createPins = window.pin.createPins;
   var createCard = window.card.createCard;
+  var setAddressByPin = window.pointer.setAddressByPin;
   var isEscEvent = window.util.isEscEvent;
 
   function activateMap(adList) {
@@ -13,21 +14,6 @@
 
   function deactivateMap() {
     mapField.classList.add('map--faded');
-  }
-
-  /**
-   * writes pin's coordinate in the address input
-   */
-  function setAddressByPin() {
-    var location = {
-      'x': null,
-      'y': null
-    };
-    var topCoordinate = pin.style.top;
-    var leftCoordinate = pin.style.left;
-    location.x = Number(topCoordinate.slice(0, topCoordinate.length - 2)) + window.pin.CORRECT_PIN_X;
-    location.y = Number(leftCoordinate.slice(0, topCoordinate.length - 2)) + window.pin.CORRECT_PIN_Y;
-    addressInput.value = location.x + ' ' + location.y;
   }
 
 
@@ -89,8 +75,6 @@
   var mapField = document.querySelector('.map');
   var filterContainer = document.querySelector('.map__filters-container');
   var pinsField = document.querySelector('.map__pins');
-  var pin = document.querySelector('.map__pin--main');
-  var addressInput = document.querySelector('#address');
 
   window.map = {
     mapField: mapField,

@@ -16,6 +16,8 @@
   }
 
   window.util = {
+    KEYCODE_ESC: KEYCODE_ESC,
+    KEYCODE_ENTER: KEYCODE_ENTER,
     isEnterEvent: isEnterEvent,
     isEscEvent: isEscEvent
   };
