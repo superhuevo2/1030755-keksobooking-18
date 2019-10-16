@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var CORRECT_PIN_X = 25;
+  var CORRECT_PIN_X = 30;
   var CORRECT_PIN_Y = 40;
 
   /**
