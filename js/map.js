@@ -6,17 +6,26 @@
   var setAddressByPin = window.pointer.setAddressByPin;
   var isEscEvent = window.util.isEscEvent;
 
+  /**
+   * make the page active
+   * @param {array} adList
+   */
   function activateMap(adList) {
     mapField.classList.remove('map--faded');
     renderPins(adList);
     setAddressByPin();
   }
 
+  /**
+   * make the page deactive
+   */
   function deactivateMap() {
     mapField.classList.add('map--faded');
   }
 
-
+  /**
+ * remove popup card element
+ */
   function removeCard() {
     var card = document.querySelector('.map__card');
     if (card !== null) {
@@ -25,12 +34,18 @@
     }
   }
 
-
+  /**
+ * close popup by press esc
+ * @param {*} evt
+ */
   function closeKeydownHandler(evt) {
     isEscEvent(evt, removeCard);
   }
 
-
+  /**
+ * add listeners to close popup card
+ * @param {object} card
+ */
   function addCardListeners(card) {
     var cardCloseBtn = card.querySelector('.popup__close');
 
@@ -65,12 +80,6 @@
     pinsField.appendChild(pinElements);
   }
 
-
-  /* function addMainPinDragListener() {
-    // будет перемещение метки
-    var mainPin = document.querySelector('.map__pin--main');
-
-  } */
 
   var mapField = document.querySelector('.map');
   var filterContainer = document.querySelector('.map__filters-container');

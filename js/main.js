@@ -5,10 +5,21 @@
   var deactivateMap = window.map.deactivateMap;
   var activateForm = window.form.activateForm;
   var validateForm = window.form.validateForm;
-  var generateAdList = window.data.generateAdList;
   var movePinHandler = window.pointer.movePinHandler;
+  var load = window.backend.load;
 
   var mainPin = document.querySelector('.map__pin--main');
+
+  function createErrorMessage() {
+    var element = errorTemplate.cloneNode(true);
+    var button = element.querySelector('.error__button');
+    blockMain.appendChild(element);
+    button.addEventListener('click', function buttonClickHandler(evt) {
+      evt.preventDefault();
+      load(activatePage, createErrorMessage);
+      element.remove();
+    });
+  }
 
   /**
    * activate page
@@ -24,18 +35,25 @@
    * activate page by mousedown on mainPin
    */
   function mainPinMousdownHandler() {
-    activatePage(adList);
+    load(activatePage, createErrorMessage);
     mainPin.removeEventListener('click', mainPinMousdownHandler);
   }
 
+  /**
+   * activate page by press Enter
+   * @param {object} evt
+   */
   function mainPinEnterHandler(evt) {
     if (evt.keyCode === KEYCODE_ENTER) {
-      activatePage(adList);
+      load(activatePage, createErrorMessage);
       mainPin.removeEventListener('keydown', mainPinEnterHandler);
     }
   }
 
-  var adList = generateAdList();
+  var errorTemplate = document.querySelector('#error')
+      .content.querySelector('.error');
+  var blockMain = document.querySelector('main');
+
   deactivateMap();
 
   mainPin.addEventListener('mousedown', mainPinMousdownHandler);
