@@ -8,9 +8,11 @@
   var movePinHandler = window.pointer.movePinHandler;
   var load = window.backend.load;
 
-  var mainPin = document.querySelector('.map__pin--main');
 
   function createErrorMessage() {
+    var errorTemplate = document.querySelector('#error')
+      .content.querySelector('.error');
+    var blockMain = document.querySelector('main');
     var element = errorTemplate.cloneNode(true);
     var button = element.querySelector('.error__button');
     blockMain.appendChild(element);
@@ -50,9 +52,7 @@
     }
   }
 
-  var errorTemplate = document.querySelector('#error')
-      .content.querySelector('.error');
-  var blockMain = document.querySelector('main');
+  var mainPin = document.querySelector('.map__pin--main');
 
   deactivateMap();
 
