@@ -21,12 +21,21 @@
     addressInput.value = location.x + ' ' + location.y;
   }
 
+  /**
+   * set how to move pointer
+   * @param {object} evt
+   */
   function movePinHandler(evt) {
     evt.preventDefault();
     var origin = {
       x: evt.clientX,
       y: evt.clientY
     };
+
+    /**
+     * handle mouse move
+     * @param {object} moveEvt
+     */
     function mouseMoveHandler(moveEvt) {
       moveEvt.preventDefault();
       var distance = {
@@ -51,13 +60,6 @@
         mainPin.style.top = (mainPin.offsetTop + distance.y) + 'px';
       }
 
-      // mainPin.style.left = (mainPin.offsetLeft + distance.x) < MAP_ORIGIN_X - CORRECT_PIN_X ? MAP_ORIGIN_X - CORRECT_PIN_X + 'px'
-      //     : (mainPin.offsetLeft + distance.x) > mapWidth - CORRECT_PIN_X ? (mapWidth - CORRECT_PIN_X) + 'px'
-      //     : (mainPin.offsetLeft + distance.x) + 'px';
-      // mainPin.style.top = (mainPin.offsetTop + distance.y) < MAP_ORIGIN_Y - CORRECT_PIN_Y ? MAP_ORIGIN_Y - CORRECT_PIN_Y + 'px'
-      //     : (mainPin.offsetTop + distance.y) > MAP_ORIGIN_Y + MAP_HEIGHT - CORRECT_PIN_Y ? (MAP_ORIGIN_Y + MAP_HEIGHT - CORRECT_PIN_Y) + 'px'
-      //     : (mainPin.offsetTop + distance.y) + 'px';
-
       origin = {
         x: moveEvt.clientX,
         y: moveEvt.clientY
@@ -65,6 +67,11 @@
 
       setAddressByPin();
     }
+
+    /**
+     * handle mouse up
+     * @param {object} upEvt
+     */
     function mouseUpHandler(upEvt) {
       upEvt.preventDefault();
       setAddressByPin();
