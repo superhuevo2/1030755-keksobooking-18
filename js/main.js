@@ -7,7 +7,7 @@
   var deactivateMap = window.map.deactivateMap;
   var activateForm = window.form.activateForm;
   var deactivateForm = window.form.deactivateForm;
-  var submitFormHandler = window.form.submitFormHandler;
+  var setFormValidation = window.form.setFormValidation;
   var resetForm = window.form.resetForm;
   var typeInputHandler = window.form.typeInputHandler;
   var timeInInputHandler = window.form.timeInInputHandler;
@@ -61,7 +61,7 @@
 
 
   function sendDataHandler(evt) {
-    submitFormHandler();
+    setFormValidation();
     if (isValid()) {
       evt.preventDefault();
       var data = new FormData(adForm);

@@ -127,7 +127,7 @@
     }
   }
 
-  function submitFormHandler() {
+  function setFormValidation() {
     validateRoomsAndGuests();
     validatePriceAndTypes();
   }
@@ -159,6 +159,6 @@
     typeInputHandler: typeInputHandler,
     timeInInputHandler: timeInInputHandler,
     timeOutInputHandler: timeOutInputHandler,
-    submitFormHandler: submitFormHandler
+    setFormValidation: setFormValidation
   };
 })();
