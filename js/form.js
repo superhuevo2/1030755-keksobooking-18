@@ -133,18 +133,17 @@
   }
 
   function isValid() {
+    var adFormInputs = adForm.querySelectorAll('input, select, textarea');
     var arr = Array.prototype.slice.call(adFormInputs);
     function reducer(el1, el2) {
       return el1 && (el1 === el2);
     }
-    var result = arr.reduce(reducer);
 
-    return result;
+    return arr.reduce(reducer);
   }
 
   var adForm = document.querySelector('.ad-form');
   var adFormFieldset = adForm.querySelectorAll('fieldset');
-  var adFormInputs = adForm.querySelectorAll('input, select, textarea');
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
   var rooms = document.querySelector('#room_number');
