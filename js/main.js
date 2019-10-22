@@ -8,6 +8,7 @@
   var activateForm = window.form.activateForm;
   var deactivateForm = window.form.deactivateForm;
   var submitFormHandler = window.form.submitFormHandler;
+  var resetForm = window.form.resetForm;
   var typeInputHandler = window.form.typeInputHandler;
   var timeInInputHandler = window.form.timeInInputHandler;
   var timeOutInputHandler = window.form.timeOutInputHandler;
@@ -78,7 +79,7 @@
     typeOfHouse.addEventListener('input', typeInputHandler);
     timeIn.addEventListener('input', timeInInputHandler);
     timeOut.addEventListener('input', timeOutInputHandler);
-    // submitFormBtn.addEventListener('click', submitFormHandler);
+    resetFormBtn.addEventListener('click', resetForm);
     submitFormBtn.addEventListener('click', sendDataHandler);
   }
 
@@ -89,7 +90,7 @@
     typeOfHouse.removeEventListener('input', typeInputHandler);
     timeIn.removeEventListener('input', timeInInputHandler);
     timeOut.removeEventListener('input', timeOutInputHandler);
-    submitFormBtn.removeEventListener('click', submitFormHandler);
+    resetFormBtn.addEventListener('click', resetForm);
     submitFormBtn.removeEventListener('click', sendDataHandler);
 
     mainPin.addEventListener('mousedown', mainPinMousdownHandler);
@@ -121,6 +122,7 @@
   var adForm = document.querySelector('.ad-form');
   var mainPin = document.querySelector('.map__pin--main');
   var submitFormBtn = document.querySelector('.ad-form__submit');
+  var resetFormBtn = document.querySelector('.ad-form__reset');
   var typeOfHouse = document.querySelector('#type');
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
