@@ -8,21 +8,31 @@
   };
 
   /**
-   * make element active
-   * @param {*} element
-   */
-  function removeDisabledAttr(element) {
-    element.removeAttribute('disabled');
-  }
-
-  /**
    * make the form active
    */
   function activateForm() {
     adForm.classList.remove('ad-form--disabled');
-    mapFiltersSelect.forEach(removeDisabledAttr);
-    mapFiltersFieldset.forEach(removeDisabledAttr);
-    adFormFieldset.forEach(removeDisabledAttr);
+    adFormFieldset.forEach(function removeDisabledAttr(element) {
+      element.removeAttribute('disabled');
+    });
+  }
+
+  /**
+   * get back the form in initial state
+   */
+  function deactivateForm() {
+    adForm.classList.add('ad-form--disabled');
+    resetForm();
+    adFormFieldset.forEach(function addDisabled(element) {
+      element.setAttribute('disabled', '');
+    });
+  }
+
+  /**
+   * reset all field in the form
+   */
+  function resetForm() {
+    adForm.reset();
   }
 
   /**
@@ -39,16 +49,21 @@
   }
 
   /**
-   * add listener wich synchronises inputs timeIn and timeOut
-   * @param {object} sourceEl
-   * @param {object} targetEl
+   * handle timeIn input, set timeOut value the same as timeIn
+   * @param {object} evt
    */
-  function addTimeClickListener(sourceEl, targetEl) {
-    function timeClickHandler(evt) {
-      var sourceValue = evt.target.value;
-      synchroniseValue(sourceValue, targetEl);
-    }
-    sourceEl.addEventListener('input', timeClickHandler);
+  function timeInInputHandler(evt) {
+    var sourceValue = evt.target.value;
+    synchroniseValue(sourceValue, timeOut);
+  }
+
+  /**
+   * handle timeOut input, set timeIn value the same as timeIn
+   * @param {object} evt
+   */
+  function timeOutInputHandler(evt) {
+    var sourceValue = evt.target.value;
+    synchroniseValue(sourceValue, timeIn);
   }
 
   /**
@@ -76,7 +91,6 @@
    * check whether rooms are suitable for guests
    */
   function validateRoomsAndGuests() {
-
     if (!isRoomsSuitableGuests()) {
       rooms.setCustomValidity('Количество комнат должно соответствовать количеству гостей');
     } else {
@@ -91,37 +105,26 @@
   function setPriceFromType(evt) {
     price.setAttribute('min', TYPE_TO_PRICE[evt.target.value]);
     price.setAttribute('placeholder', TYPE_TO_PRICE[evt.target.value]);
-
   }
 
-  /**
-   * validate form before submit
-   */
-  function addValidateFormListeners() {
-    formBtn.addEventListener('click', validateRoomsAndGuests);
-
-    addTimeClickListener(timeIn, timeOut);
-    addTimeClickListener(timeOut, timeIn);
-
-    typeOfHouse.addEventListener('input', setPriceFromType);
+  function submitFormHandler() {
+    validateRoomsAndGuests();
   }
 
   var adForm = document.querySelector('.ad-form');
   var adFormFieldset = adForm.querySelectorAll('fieldset');
-  var mapFiltersSelect = document.querySelector('.map__filters').querySelectorAll('select');
-  var mapFiltersFieldset = document.querySelector('.map__filters').querySelectorAll('fieldset');
-
-  var rooms = document.querySelector('#room_number');
-
-  var typeOfHouse = document.querySelector('#type');
-  var price = document.querySelector('#price');
-
-  var formBtn = document.querySelector('.ad-form__submit');
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
+  var rooms = document.querySelector('#room_number');
+  var price = document.querySelector('#price');
 
   window.form = {
     activateForm: activateForm,
-    validateForm: addValidateFormListeners
+    deactivateForm: deactivateForm,
+    resetForm: resetForm,
+    setPriceFromType: setPriceFromType,
+    timeInInputHandler: timeInInputHandler,
+    timeOutInputHandler: timeOutInputHandler,
+    submitFormHandler: submitFormHandler
   };
 })();

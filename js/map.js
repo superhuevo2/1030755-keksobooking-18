@@ -4,15 +4,16 @@
   var createPins = window.pin.createPins;
   var createCard = window.card.createCard;
   var setAddressByPin = window.pointer.setAddressByPin;
+  var resetPinPosition = window.pointer.resetPinPosition;
   var isEscEvent = window.util.isEscEvent;
 
   /**
-   * make the page active
-   * @param {array} adList
+   * make the map active
+   * @param {json} data list of ads
    */
-  function activateMap(adList) {
+  function activateMap(data) {
     mapField.classList.remove('map--faded');
-    renderPins(adList);
+    renderPins(data);
     setAddressByPin();
   }
 
@@ -21,6 +22,9 @@
    */
   function deactivateMap() {
     mapField.classList.add('map--faded');
+    removePins();
+    resetPinPosition();
+    setAddressByPin();
   }
 
   /**
@@ -55,7 +59,7 @@
 
 
   /**
-   * add listener to a pin
+   * add listener to a pin to create card
    * @param {object} element pin for adding listener
    * @param {*} data info about pin
    */
@@ -80,6 +84,13 @@
     pinsField.appendChild(pinElements);
   }
 
+  function removePins() {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main');
+    for (var i = pins.length - 1; i >= 0; i--) {
+      pins[i].remove();
+    }
+  }
+
 
   var mapField = document.querySelector('.map');
   var filterContainer = document.querySelector('.map__filters-container');
@@ -88,7 +99,8 @@
   window.map = {
     mapField: mapField,
     activateMap: activateMap,
-    deactivateMap: deactivateMap
+    deactivateMap: deactivateMap,
+    removePins: removePins
   };
 })();
 
