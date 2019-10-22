@@ -133,13 +133,17 @@
   }
 
   function isValid() {
-    var adFormInputs = adForm.querySelectorAll('input, select, textarea');
-    var arr = Array.prototype.slice.call(adFormInputs);
+    function makeValidityList(el) {
+      return el.checkValidity();
+    }
     function reducer(el1, el2) {
       return el1 && (el1 === el2);
     }
+    var adFormInputs = adForm.querySelectorAll('input, select, textarea');
+    var arr = Array.prototype.slice.call(adFormInputs);
+    var validityList = arr.map(makeValidityList);
 
-    return arr.reduce(reducer);
+    return validityList.reduce(reducer);
   }
 
   var adForm = document.querySelector('.ad-form');
