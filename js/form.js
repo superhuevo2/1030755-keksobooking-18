@@ -15,6 +15,7 @@
     adFormFieldset.forEach(function removeDisabledAttr(element) {
       element.removeAttribute('disabled');
     });
+    setPriceFromType('flat');
   }
 
   /**
@@ -102,9 +103,18 @@
    * set attributes min and placeholder according to the type
    * @param {event} evt
    */
-  function setPriceFromType(evt) {
-    price.setAttribute('min', TYPE_TO_PRICE[evt.target.value]);
-    price.setAttribute('placeholder', TYPE_TO_PRICE[evt.target.value]);
+  function typeInputHandler(evt) {
+    var val = evt.target.value;
+    setPriceFromType(val);
+  }
+
+  /**
+   * set attributes min and placeholder according to the type
+   * @param {string} value
+   */
+  function setPriceFromType(value) {
+    price.setAttribute('min', TYPE_TO_PRICE[value]);
+    price.setAttribute('placeholder', TYPE_TO_PRICE[value]);
   }
 
   function submitFormHandler() {
@@ -122,7 +132,7 @@
     activateForm: activateForm,
     deactivateForm: deactivateForm,
     resetForm: resetForm,
-    setPriceFromType: setPriceFromType,
+    typeInputHandler: typeInputHandler,
     timeInInputHandler: timeInInputHandler,
     timeOutInputHandler: timeOutInputHandler,
     submitFormHandler: submitFormHandler

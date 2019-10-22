@@ -8,7 +8,7 @@
   var activateForm = window.form.activateForm;
   var deactivateForm = window.form.deactivateForm;
   var submitFormHandler = window.form.submitFormHandler;
-  var setPriceFromType = window.form.setPriceFromType;
+  var typeInputHandler = window.form.typeInputHandler;
   var timeInInputHandler = window.form.timeInInputHandler;
   var timeOutInputHandler = window.form.timeOutInputHandler;
   var movePinHandler = window.pointer.movePinHandler;
@@ -71,7 +71,7 @@
   function activatePage(data) {
     activateMap(data);
     activateForm();
-    typeOfHouse.addEventListener('input', setPriceFromType);
+    typeOfHouse.addEventListener('input', typeInputHandler);
     timeIn.addEventListener('input', timeInInputHandler);
     timeOut.addEventListener('input', timeOutInputHandler);
     submitFormBtn.addEventListener('click', submitFormHandler);
@@ -82,7 +82,7 @@
   function deactivatePage() {
     deactivateMap();
     deactivateForm();
-    typeOfHouse.removeEventListener('input', setPriceFromType);
+    typeOfHouse.removeEventListener('input', typeInputHandler);
     timeIn.removeEventListener('input', timeInInputHandler);
     timeOut.removeEventListener('input', timeOutInputHandler);
     submitFormBtn.removeEventListener('click', submitFormHandler);
