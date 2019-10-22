@@ -11,6 +11,7 @@
   var typeInputHandler = window.form.typeInputHandler;
   var timeInInputHandler = window.form.timeInInputHandler;
   var timeOutInputHandler = window.form.timeOutInputHandler;
+  var isValid = window.form.isValid;
   var movePinHandler = window.pointer.movePinHandler;
   var load = window.backend.load;
   var send = window.backend.send;
@@ -59,9 +60,12 @@
 
 
   function sendDataHandler(evt) {
-    evt.preventDefault();
-    var data = new FormData(adForm);
-    send(data, successSendHandler, errorHandler.bind(null, 'send'));
+    submitFormHandler();
+    if (isValid()) {
+      evt.preventDefault();
+      var data = new FormData(adForm);
+      send(data, successSendHandler, errorHandler.bind(null, 'send'));
+    }
   }
 
   /**
@@ -74,7 +78,7 @@
     typeOfHouse.addEventListener('input', typeInputHandler);
     timeIn.addEventListener('input', timeInInputHandler);
     timeOut.addEventListener('input', timeOutInputHandler);
-    submitFormBtn.addEventListener('click', submitFormHandler);
+    // submitFormBtn.addEventListener('click', submitFormHandler);
     submitFormBtn.addEventListener('click', sendDataHandler);
   }
 

@@ -15,7 +15,7 @@
     adFormFieldset.forEach(function removeDisabledAttr(element) {
       element.removeAttribute('disabled');
     });
-    setPriceFromType('flat');
+    // setPriceFromType('flat');
   }
 
   /**
@@ -117,21 +117,45 @@
     price.setAttribute('placeholder', TYPE_TO_PRICE[value]);
   }
 
+  function validatePriceAndTypes() {
+    if (price.value === '' || price.value <= TYPE_TO_PRICE[type.value]) {
+      price.setCustomValidity('Цена не соответствует типу жилья');
+    } else if (price.value > 1000000) {
+      price.setCustomValidity('Максимальная цена 1 000 000');
+    } else {
+      price.setCustomValidity('');
+    }
+  }
+
   function submitFormHandler() {
     validateRoomsAndGuests();
+    validatePriceAndTypes();
+  }
+
+  function isValid() {
+    var arr = Array.prototype.slice.call(adFormInputs);
+    function reducer(el1, el2) {
+      return el1 && (el1 === el2);
+    }
+    var result = arr.reduce(reducer);
+
+    return result;
   }
 
   var adForm = document.querySelector('.ad-form');
   var adFormFieldset = adForm.querySelectorAll('fieldset');
+  var adFormInputs = adForm.querySelectorAll('input, select, textarea');
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
   var rooms = document.querySelector('#room_number');
   var price = document.querySelector('#price');
+  var type = document.querySelector('#type');
+
 
   window.form = {
     activateForm: activateForm,
     deactivateForm: deactivateForm,
-    resetForm: resetForm,
+    isValid: isValid,
     typeInputHandler: typeInputHandler,
     timeInInputHandler: timeInInputHandler,
     timeOutInputHandler: timeOutInputHandler,
