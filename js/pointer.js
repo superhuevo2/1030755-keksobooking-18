@@ -3,6 +3,8 @@
   var MAP_ORIGIN_Y = 130;
   var MAP_ORIGIN_X = 0;
   var MAP_HEIGHT = 500;
+  var MAIN_PIN_ORIGIN_X = 640;
+  var MAIN_PIN_ORIGIN_Y = 415;
   var CORRECT_PIN_X = window.pin.CORRECT_PIN_X;
   var CORRECT_PIN_Y = window.pin.CORRECT_PIN_Y;
 
@@ -19,6 +21,11 @@
     location.y = topCoordinate + CORRECT_PIN_Y;
     location.x = leftCoordinate + CORRECT_PIN_X;
     addressInput.value = location.x + ' ' + location.y;
+  }
+
+  function resetPinPosition() {
+    mainPin.style.left = MAIN_PIN_ORIGIN_X;
+    mainPin.style.top = MAIN_PIN_ORIGIN_Y;
   }
 
   /**
@@ -89,7 +96,8 @@
 
   window.pointer = {
     movePinHandler: movePinHandler,
-    setAddressByPin: setAddressByPin
+    setAddressByPin: setAddressByPin,
+    resetPinPosition: resetPinPosition
   };
 
 })();

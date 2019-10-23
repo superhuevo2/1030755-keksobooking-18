@@ -25,10 +25,32 @@
     }
   }
 
+
+  function createErrorMessage() {
+    var errorTemplate = document.querySelector('#error')
+      .content.querySelector('.error');
+    var element = errorTemplate.cloneNode(true);
+    blockMain.appendChild(element);
+
+  }
+
+
+  function createSuccessMessage() {
+    var successTemplate = document.querySelector('#success')
+        .content.querySelector('.success');
+    var element = successTemplate.cloneNode(true);
+    blockMain.appendChild(element);
+
+  }
+
+  var blockMain = document.querySelector('main');
+
   window.util = {
     KEYCODE_ESC: KEYCODE_ESC,
     KEYCODE_ENTER: KEYCODE_ENTER,
     isEnterEvent: isEnterEvent,
-    isEscEvent: isEscEvent
+    isEscEvent: isEscEvent,
+    createSuccessMessage: createSuccessMessage,
+    createErrorMessage: createErrorMessage
   };
 })();
