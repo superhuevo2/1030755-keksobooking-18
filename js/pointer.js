@@ -3,8 +3,8 @@
   var MAP_ORIGIN_Y = 130;
   var MAP_ORIGIN_X = 0;
   var MAP_HEIGHT = 500;
-  var MAIN_PIN_ORIGIN_X = 640;
-  var MAIN_PIN_ORIGIN_Y = 415;
+  var MAIN_PIN_ORIGIN_X = 570;
+  var MAIN_PIN_ORIGIN_Y = 375;
   var CORRECT_PIN_X = window.pin.CORRECT_PIN_X;
   var CORRECT_PIN_Y = window.pin.CORRECT_PIN_Y;
 
@@ -24,8 +24,8 @@
   }
 
   function resetPinPosition() {
-    mainPin.style.left = MAIN_PIN_ORIGIN_X;
-    mainPin.style.top = MAIN_PIN_ORIGIN_Y;
+    mainPin.style.left = MAIN_PIN_ORIGIN_X + 'px';
+    mainPin.style.top = MAIN_PIN_ORIGIN_Y + 'px';
   }
 
   /**

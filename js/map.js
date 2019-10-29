@@ -97,9 +97,9 @@
   var pinsField = document.querySelector('.map__pins');
 
   window.map = {
-    mapField: mapField,
     activateMap: activateMap,
     deactivateMap: deactivateMap,
+    renderPins: renderPins,
     removePins: removePins
   };
 })();
