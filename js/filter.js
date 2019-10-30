@@ -40,6 +40,4 @@
     filterObject: filterObject,
     filterQuantity: filterQuantity
   };
-
-  return window.filter.filterObject;
 })();

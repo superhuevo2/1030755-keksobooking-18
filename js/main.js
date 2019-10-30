@@ -11,8 +11,6 @@
   var movePinHandler = window.pointer.movePinHandler;
   var load = window.backend.load;
 
-  var adList;
-
   /**
    * handle error in xhr
    */
@@ -29,9 +27,8 @@
 
 
   function successLoadHandler(data) {
-    adList = data;
-    window.filter.filterObject.dataList = adList;
-    var adsForRender = filterQuantity(adList);
+    window.filter.filterObject.dataList = data;
+    var adsForRender = filterQuantity(data);
     activatePage(adsForRender);
   }
 

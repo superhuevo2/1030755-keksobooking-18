@@ -181,19 +181,14 @@
     adFormObj.onSubmit();
     var successPopup = document.querySelector('.success');
 
-    function keydownHandler() {
+    function closePopupHandler() {
       successPopup.remove();
-      document.removeEventListener('keydown', keydownHandler);
-      document.removeEventListener('click', clickHandler);
-    }
-    function clickHandler() {
-      successPopup.remove();
-      document.removeEventListener('click', clickHandler);
-      document.removeEventListener('keydown', keydownHandler);
+      document.removeEventListener('click', closePopupHandler);
+      document.removeEventListener('keydown', closePopupHandler);
     }
 
-    document.addEventListener('keydown', keydownHandler);
-    document.addEventListener('click', clickHandler);
+    document.addEventListener('keydown', closePopupHandler);
+    document.addEventListener('click', closePopupHandler);
   }
 
   function errorSendHandler() {
@@ -229,6 +224,4 @@
     setFormValidation: setFormValidation,
     adFormObj: adFormObj
   };
-
-  return window.form.adFormObj;
 })();
