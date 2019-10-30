@@ -7,6 +7,14 @@
     palace: 10000
   };
 
+  var send = window.backend.send;
+  var createSuccessMessage = window.util.createSuccessMessage;
+  var createErrorMessage = window.util.createErrorMessage;
+
+  var adFormObj = {
+    onSubmit: function () {}
+  };
+
   /**
    * make the form active
    */
@@ -15,7 +23,12 @@
     adFormFieldset.forEach(function removeDisabledAttr(element) {
       element.removeAttribute('disabled');
     });
-    // setPriceFromType('flat');
+
+    typeOfHouse.addEventListener('input', typeInputHandler);
+    timeIn.addEventListener('input', timeInInputHandler);
+    timeOut.addEventListener('input', timeOutInputHandler);
+    resetFormBtn.addEventListener('click', resetForm);
+    submitFormBtn.addEventListener('click', sendDataHandler);
   }
 
   /**
@@ -27,6 +40,12 @@
     adFormFieldset.forEach(function addDisabled(element) {
       element.setAttribute('disabled', '');
     });
+
+    typeOfHouse.removeEventListener('input', typeInputHandler);
+    timeIn.removeEventListener('input', timeInInputHandler);
+    timeOut.removeEventListener('input', timeOutInputHandler);
+    resetFormBtn.addEventListener('click', resetForm);
+    submitFormBtn.removeEventListener('click', sendDataHandler);
   }
 
   /**
@@ -118,7 +137,7 @@
   }
 
   function validatePriceAndTypes() {
-    if (price.value === '' || price.value <= TYPE_TO_PRICE[type.value]) {
+    if (price.value === '' || price.value <= TYPE_TO_PRICE[typeOfHouse.value]) {
       price.setCustomValidity('Цена не соответствует типу жилья');
     } else if (price.value > 1000000) {
       price.setCustomValidity('Максимальная цена 1 000 000');
@@ -146,13 +165,53 @@
     return validityList.reduce(reducer);
   }
 
+
+  function sendDataHandler(evt) {
+    setFormValidation();
+    if (isValid()) {
+      evt.preventDefault();
+      var data = new FormData(adForm);
+      send(data, successSendHandler, errorSendHandler);
+    }
+  }
+
+
+  function successSendHandler() {
+    createSuccessMessage();
+    adFormObj.onSubmit();
+    var successPopup = document.querySelector('.success');
+
+    function closePopupHandler() {
+      successPopup.remove();
+      document.removeEventListener('click', closePopupHandler);
+      document.removeEventListener('keydown', closePopupHandler);
+    }
+
+    document.addEventListener('keydown', closePopupHandler);
+    document.addEventListener('click', closePopupHandler);
+  }
+
+  function errorSendHandler() {
+    createErrorMessage();
+    var errorPopup = document.querySelector('.error');
+    var button = errorPopup.querySelector('.error__button');
+    button.addEventListener('click', function buttonClickHandler(evt) {
+      evt.preventDefault();
+      errorPopup.remove();
+    });
+  }
+
+
   var adForm = document.querySelector('.ad-form');
   var adFormFieldset = adForm.querySelectorAll('fieldset');
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
   var rooms = document.querySelector('#room_number');
   var price = document.querySelector('#price');
-  var type = document.querySelector('#type');
+
+  var resetFormBtn = document.querySelector('.ad-form__reset');
+  var typeOfHouse = document.querySelector('#type');
+  var submitFormBtn = document.querySelector('.ad-form__submit');
 
 
   window.form = {
@@ -162,6 +221,7 @@
     typeInputHandler: typeInputHandler,
     timeInInputHandler: timeInInputHandler,
     timeOutInputHandler: timeOutInputHandler,
-    setFormValidation: setFormValidation
+    setFormValidation: setFormValidation,
+    adFormObj: adFormObj
   };
 })();
