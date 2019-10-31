@@ -76,6 +76,7 @@
     }
   }
 
+
   function getFiltered(dataList) {
     var filteredList = dataList.filter(function (el) {
       return isType(el) &&
@@ -94,9 +95,15 @@
     renderPins(filterQuantity(filteredList));
   }
 
-
+  var lastTimeout;
   function filterChangeHandler() {
-    getFiltered(filterObject.dataList);
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+
+    lastTimeout = window.setTimeout(function () {
+      getFiltered(filterObject.dataList);
+    }, 500);
   }
 
   var filterType = document.querySelector('.map__filter[id="housing-type"]');
