@@ -4,6 +4,7 @@
   var renderPins = window.map.renderPins;
   var removePins = window.map.removePins;
   var removeCard = window.map.removeCard;
+  var debounce = window.debounce;
 
   var filterObject = {
     dataList: undefined,
@@ -95,16 +96,10 @@
     renderPins(filterQuantity(filteredList));
   }
 
-  var lastTimeout;
-  function filterChangeHandler() {
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
+  var filterChangeHandler = debounce(function filterChangeHandler() {
+    getFiltered(filterObject.dataList);
+  })
 
-    lastTimeout = window.setTimeout(function () {
-      getFiltered(filterObject.dataList);
-    }, 500);
-  }
 
   var filterType = document.querySelector('.map__filter[id="housing-type"]');
   var filterPrice = document.querySelector('.map__filter[id="housing-price"]');
