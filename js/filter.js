@@ -98,7 +98,7 @@
 
   var filterChangeHandler = debounce(function filterChangeHandler() {
     getFiltered(filterObject.dataList);
-  })
+  });
 
 
   var filterType = document.querySelector('.map__filter[id="housing-type"]');
