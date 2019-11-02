@@ -100,7 +100,8 @@
     activateMap: activateMap,
     deactivateMap: deactivateMap,
     renderPins: renderPins,
-    removePins: removePins
+    removePins: removePins,
+    removeCard: removeCard
   };
 })();
 
