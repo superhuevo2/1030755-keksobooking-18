@@ -23,6 +23,7 @@
   function deactivateMap() {
     mapField.classList.add('map--faded');
     removePins();
+    removeCard();
     resetPinPosition();
     setAddressByPin();
   }

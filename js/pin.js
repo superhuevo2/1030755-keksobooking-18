@@ -30,8 +30,10 @@
   function createPins(dataList) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < dataList.length; i++) {
-      var pin = createPinElement(pinTemplate, dataList[i]);
-      fragment.appendChild(pin);
+      if (dataList[i].offer !== undefined) {
+        var pin = createPinElement(pinTemplate, dataList[i]);
+        fragment.appendChild(pin);
+      }
     }
     return fragment;
   }

@@ -219,11 +219,6 @@
   window.form = {
     activateForm: activateForm,
     deactivateForm: deactivateForm,
-    isValid: isValid,
-    typeInputHandler: typeInputHandler,
-    timeInInputHandler: timeInInputHandler,
-    timeOutInputHandler: timeOutInputHandler,
-    setFormValidation: setFormValidation,
     adFormObj: adFormObj
   };
 })();

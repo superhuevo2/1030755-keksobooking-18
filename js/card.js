@@ -68,15 +68,33 @@
     title.textContent = data.offer.title;
     address.textContent = data.offer.address;
     price.textContent = data.offer.price + '₽/ночь';
+
     type.textContent = defineTypeOfHouse(data.offer.type);
+
     capacity.textContent = data.offer.rooms + ' комнаты для '
         + data.offer.guests + ' гостей';
+
     time.textContent = 'Заезд после ' + data.offer.checkin
         + ', выезд до ' + data.offer.checkout;
-    selectFeatures(featuresElement, data.offer.features);
-    description.textContent = data.offer.description;
-    photos.appendChild(genPhotoEl(photos.firstElementChild, data.offer.photos));
-    photos.removeChild(photos.firstElementChild);
+    if (data.offer.features === undefined || data.offer.features.length == 0) {
+      featuresElement.remove();
+    } else {
+      selectFeatures(featuresElement, data.offer.features);
+    }
+
+    if (data.offer.description === undefined || data.offer.description === '') {
+      description.remove();
+    } else {
+      description.textContent = data.offer.description;
+    }
+
+    if (data.offer.photos === undefined || data.offer.photos.length == 0) {
+      photos.remove();
+    } else {
+      photos.appendChild(genPhotoEl(photos.firstElementChild, data.offer.photos));
+      photos.removeChild(photos.firstElementChild);
+    }
+
     avatar.setAttribute('src', data.author.avatar);
 
     return element;
