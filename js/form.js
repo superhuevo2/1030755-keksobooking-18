@@ -28,7 +28,6 @@
     typeOfHouse.addEventListener('input', typeInputHandler);
     timeIn.addEventListener('input', timeInInputHandler);
     timeOut.addEventListener('input', timeOutInputHandler);
-    // resetFormBtn.addEventListener('click', resetForm);
     submitFormBtn.addEventListener('click', sendDataHandler);
   }
 
@@ -45,7 +44,6 @@
     typeOfHouse.removeEventListener('input', typeInputHandler);
     timeIn.removeEventListener('input', timeInInputHandler);
     timeOut.removeEventListener('input', timeOutInputHandler);
-    // resetFormBtn.addEventListener('click', resetForm);
     submitFormBtn.removeEventListener('click', sendDataHandler);
   }
 
@@ -210,8 +208,6 @@
   var timeOut = document.querySelector('#timeout');
   var rooms = document.querySelector('#room_number');
   var price = document.querySelector('#price');
-
-  // var resetFormBtn = document.querySelector('.ad-form__reset');
   var typeOfHouse = document.querySelector('#type');
   var submitFormBtn = document.querySelector('.ad-form__submit');
 

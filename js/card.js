@@ -82,7 +82,7 @@
       selectFeatures(featuresElement, data.offer.features);
     }
 
-    if (data.offer.description === undefined || data.offer.description === '') {
+    if (data.offer.description) {
       description.remove();
     } else {
       description.textContent = data.offer.description;
