@@ -76,10 +76,10 @@
 
     time.textContent = 'Заезд после ' + data.offer.checkin
         + ', выезд до ' + data.offer.checkout;
-    if (data.offer.features === undefined || data.offer.features.length === 0) {
-      featuresElement.remove();
-    } else {
+    if (data.offer.features && data.offer.features.length > 0) {
       selectFeatures(featuresElement, data.offer.features);
+    } else {
+      featuresElement.remove();
     }
 
     if (data.offer.description) {
@@ -88,11 +88,11 @@
       description.textContent = data.offer.description;
     }
 
-    if (data.offer.photos === undefined || data.offer.photos.length === 0) {
-      photos.remove();
-    } else {
+    if (data.offer.photos && data.offer.photos.length > 0) {
       photos.appendChild(genPhotoEl(photos.firstElementChild, data.offer.photos));
       photos.removeChild(photos.firstElementChild);
+    } else {
+      photos.remove();
     }
 
     avatar.setAttribute('src', data.author.avatar);
