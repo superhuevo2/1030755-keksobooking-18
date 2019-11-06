@@ -7,7 +7,7 @@
   var filterQuantity = window.filter.filterQuantity;
   var activateForm = window.form.activateForm;
   var deactivateForm = window.form.deactivateForm;
-
+  var resetFilter = window.filter.resetFilter;
   var movePinHandler = window.pointer.movePinHandler;
   var load = window.backend.load;
 
@@ -46,6 +46,7 @@
   function deactivatePage() {
     deactivateMap();
     deactivateForm();
+    resetFilter();
 
     mainPin.addEventListener('mousedown', mainPinMousdownHandler);
     mainPin.addEventListener('keydown', mainPinEnterHandler);
@@ -72,7 +73,9 @@
   }
 
   var mainPin = document.querySelector('.map__pin--main');
+  var resetFormBtn = document.querySelector('.ad-form__reset');
 
+  resetFormBtn.addEventListener('click', deactivatePage);
 
   deactivatePage();
   window.form.adFormObj.onSubmit = deactivatePage;

@@ -13,7 +13,7 @@
   var resetPhoto = window.photo.resetPhoto;
 
   var adFormObj = {
-    onSubmit: function () {}
+    submitHandler: function () {}
   };
 
   /**
@@ -28,7 +28,7 @@
     typeOfHouse.addEventListener('input', typeInputHandler);
     timeIn.addEventListener('input', timeInInputHandler);
     timeOut.addEventListener('input', timeOutInputHandler);
-    resetFormBtn.addEventListener('click', resetForm);
+    // resetFormBtn.addEventListener('click', resetForm);
     submitFormBtn.addEventListener('click', sendDataHandler);
   }
 
@@ -45,7 +45,7 @@
     typeOfHouse.removeEventListener('input', typeInputHandler);
     timeIn.removeEventListener('input', timeInInputHandler);
     timeOut.removeEventListener('input', timeOutInputHandler);
-    resetFormBtn.addEventListener('click', resetForm);
+    // resetFormBtn.addEventListener('click', resetForm);
     submitFormBtn.removeEventListener('click', sendDataHandler);
   }
 
@@ -180,7 +180,7 @@
 
   function successSendHandler() {
     createSuccessMessage();
-    adFormObj.onSubmit();
+    adFormObj.submitHandler();
     var successPopup = document.querySelector('.success');
 
     function closePopupHandler() {
@@ -211,7 +211,7 @@
   var rooms = document.querySelector('#room_number');
   var price = document.querySelector('#price');
 
-  var resetFormBtn = document.querySelector('.ad-form__reset');
+  // var resetFormBtn = document.querySelector('.ad-form__reset');
   var typeOfHouse = document.querySelector('#type');
   var submitFormBtn = document.querySelector('.ad-form__submit');
 
