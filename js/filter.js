@@ -10,6 +10,10 @@
     dataList: undefined,
   };
 
+  function resetFilter() {
+    filter.reset();
+  }
+
   function filterQuantity(dataList) {
     return dataList.slice(0, NUMBER_OF_ELEMENTS);
   }
@@ -100,7 +104,7 @@
     getFiltered(filterObject.dataList);
   });
 
-
+  var filter = document.querySelector('form.map__filters');
   var filterType = document.querySelector('.map__filter[id="housing-type"]');
   var filterPrice = document.querySelector('.map__filter[id="housing-price"]');
   var filterRooms = document.querySelector('.map__filter[id="housing-rooms"]');
@@ -126,6 +130,7 @@
 
   window.filter = {
     filterObject: filterObject,
-    filterQuantity: filterQuantity
+    filterQuantity: filterQuantity,
+    resetFilter: resetFilter
   };
 })();
