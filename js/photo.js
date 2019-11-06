@@ -27,6 +27,11 @@
     });
   };
 
+  var resetPhoto = function () {
+    avatarPreview.setAttribute('src', 'img/muffin-grey.svg');
+    photoPreview.removeAttribute('style');
+  };
+
   var avatarChooser = document.querySelector('.ad-form__field input');
   var avatarPreview = document.querySelector('.ad-form-header__preview img');
 
@@ -36,4 +41,8 @@
   var photoPreview = document.querySelector('.ad-form__photo');
 
   loadPhoto(photoChooser, photoPreview);
+
+  window.photo = {
+    resetPhoto: resetPhoto
+  };
 })();

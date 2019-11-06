@@ -10,6 +10,7 @@
   var send = window.backend.send;
   var createSuccessMessage = window.util.createSuccessMessage;
   var createErrorMessage = window.util.createErrorMessage;
+  var resetPhoto = window.photo.resetPhoto;
 
   var adFormObj = {
     onSubmit: function () {}
@@ -53,6 +54,7 @@
    */
   function resetForm() {
     adForm.reset();
+    resetPhoto();
   }
 
   /**
