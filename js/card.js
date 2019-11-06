@@ -76,7 +76,7 @@
 
     time.textContent = 'Заезд после ' + data.offer.checkin
         + ', выезд до ' + data.offer.checkout;
-    if (data.offer.features === undefined || data.offer.features.length == 0) {
+    if (data.offer.features === undefined || data.offer.features.length === 0) {
       featuresElement.remove();
     } else {
       selectFeatures(featuresElement, data.offer.features);
@@ -88,7 +88,7 @@
       description.textContent = data.offer.description;
     }
 
-    if (data.offer.photos === undefined || data.offer.photos.length == 0) {
+    if (data.offer.photos === undefined || data.offer.photos.length === 0) {
       photos.remove();
     } else {
       photos.appendChild(genPhotoEl(photos.firstElementChild, data.offer.photos));
