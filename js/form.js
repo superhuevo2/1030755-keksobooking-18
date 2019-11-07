@@ -70,7 +70,7 @@
       if (el.value === value) {
         el.selected = true;
       }
-    })
+    });
   }
 
   /**

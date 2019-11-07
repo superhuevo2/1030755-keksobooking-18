@@ -35,7 +35,7 @@
         var pin = createPinElement(pinTemplate, el);
         fragment.appendChild(pin);
       }
-    })
+    });
 
     return fragment;
   }

@@ -21,7 +21,7 @@
       var newElement = element.cloneNode(true);
       newElement.setAttribute('src', el);
       fragment.appendChild(newElement);
-    })
+    });
 
 
     return fragment;

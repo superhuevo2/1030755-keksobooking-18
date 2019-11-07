@@ -10,18 +10,18 @@
     xhr.addEventListener('load', function () {
       switch (type) {
         case 'load':
-            try {
-              onLoad(xhr.response);
-            } catch (err) {
-              onError();
-            }
+          try {
+            onLoad(xhr.response);
+          } catch (err) {
+            onError();
+          }
           break;
         case 'send':
-            if (xhr.status === SUCCESS_STATUS) {
-              onLoad();
-            } else {
-              onError();
-            }
+          if (xhr.status === SUCCESS_STATUS) {
+            onLoad();
+          } else {
+            onError();
+          }
           break;
         default:
           break;
@@ -40,6 +40,7 @@
       case 'send':
         xhr.open('POST', URL_SEND);
         xhr.send(data);
+        break;
       default:
         break;
     }
@@ -48,7 +49,7 @@
   function load(onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-    makeRequest('load', xhr, null, onLoad, onError)
+    makeRequest('load', xhr, null, onLoad, onError);
   }
 
   function send(data, onLoad, onError) {
