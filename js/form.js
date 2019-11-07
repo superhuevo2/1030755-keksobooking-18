@@ -7,6 +7,11 @@
     palace: 10000
   };
 
+  var MIN_NUMBER_OF_PLACES = 0;
+  var MAX_ROOMS = 100;
+
+  var MAX_PRICE = 1000000;
+
   var send = window.backend.send;
   var createSuccessMessage = window.util.createSuccessMessage;
   var createErrorMessage = window.util.createErrorMessage;
@@ -61,11 +66,11 @@
    * @param {object} target
    */
   function synchroniseValue(value, target) {
-    for (var i = 0; i < target.options.length; i++) {
-      if (target.options[i].value === value) {
-        target.options[i].selected = true;
+    Array.prototype.forEach.call(target.options, function (el) {
+      if (el.value === value) {
+        el.selected = true;
       }
-    }
+    })
   }
 
   /**
@@ -98,11 +103,11 @@
         .querySelector('option:checked')
         .getAttribute('value');
 
-    if (Number(roomNumber) === 100) {
-      return Number(guestNumber) === 0;
+    if (Number(roomNumber) === MAX_ROOMS) {
+      return Number(guestNumber) === MIN_NUMBER_OF_PLACES;
     }
-    if (Number(guestNumber) === 0) {
-      return Number(roomNumber) === 100;
+    if (Number(guestNumber) === MIN_NUMBER_OF_PLACES) {
+      return Number(roomNumber) === MAX_ROOMS;
     }
     return Number(roomNumber) >= Number(guestNumber);
   }
@@ -137,9 +142,9 @@
   }
 
   function validatePriceAndTypes() {
-    if (price.value === '' || price.value <= TYPE_TO_PRICE[typeOfHouse.value]) {
+    if (Number(price.value) === '' || price.value < TYPE_TO_PRICE[typeOfHouse.value]) {
       price.setCustomValidity('Цена не соответствует типу жилья');
-    } else if (price.value > 1000000) {
+    } else if (price.value > MAX_PRICE) {
       price.setCustomValidity('Максимальная цена 1 000 000');
     } else {
       price.setCustomValidity('');
@@ -217,4 +222,5 @@
     deactivateForm: deactivateForm,
     adFormObj: adFormObj
   };
+
 })();

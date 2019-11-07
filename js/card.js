@@ -1,6 +1,13 @@
 'use strict';
 
 (function () {
+  var TYPE_TO_NAME = {
+    'flat': 'Квартира',
+    'bungalo': 'Бунгало',
+    'house': 'Дом',
+    'palace': 'Дворец',
+  };
+
   /**
    * generate a fragment of DOM's elements from an element
    * @param {Object} element
@@ -10,11 +17,13 @@
   function genPhotoEl(element, linksList) {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < linksList.length; i++) {
+    linksList.forEach(function (el) {
       var newElement = element.cloneNode(true);
-      newElement.setAttribute('src', linksList[i]);
+      newElement.setAttribute('src', el);
       fragment.appendChild(newElement);
-    }
+    })
+
+
     return fragment;
   }
 
@@ -24,13 +33,8 @@
    * @return {string}
    */
   function defineTypeOfHouse(type) {
-    var container = {
-      'flat': 'Квартира',
-      'bungalo': 'Бунгало',
-      'house': 'Дом',
-      'palace': 'Дворец',
-    };
-    return container[type] || 'Неизвестный тип';
+
+    return TYPE_TO_NAME[type] || 'Неизвестный тип';
   }
 
   /**

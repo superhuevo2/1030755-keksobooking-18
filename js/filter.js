@@ -6,6 +6,9 @@
   var removeCard = window.map.removeCard;
   var debounce = window.debounce;
 
+  var HIGH_PRICE = 50000;
+  var LOW_PRICE = 10000;
+
   var filterObject = {
     dataList: undefined,
   };
@@ -33,11 +36,11 @@
       case 'any':
         return true;
       case 'middle':
-        return (el.offer.price >= 10000 && el.offer.price < 50000);
+        return (el.offer.price >= LOW_PRICE && el.offer.price < HIGH_PRICE);
       case 'low':
-        return el.offer.price < 10000;
+        return el.offer.price < LOW_PRICE;
       case 'high':
-        return el.offer.price >= 50000;
+        return el.offer.price >= HIGH_PRICE;
       default:
         return undefined;
     }

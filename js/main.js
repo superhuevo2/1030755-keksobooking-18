@@ -78,5 +78,5 @@
   resetFormBtn.addEventListener('click', deactivatePage);
 
   deactivatePage();
-  window.form.adFormObj.onSubmit = deactivatePage;
+  window.form.adFormObj.submitHandler = deactivatePage;
 })();

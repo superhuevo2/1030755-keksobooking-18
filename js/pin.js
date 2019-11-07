@@ -29,12 +29,14 @@
    */
   function createPins(dataList) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < dataList.length; i++) {
-      if (dataList[i].offer) {
-        var pin = createPinElement(pinTemplate, dataList[i]);
+
+    dataList.forEach(function (el) {
+      if (el.offer) {
+        var pin = createPinElement(pinTemplate, el);
         fragment.appendChild(pin);
       }
-    }
+    })
+
     return fragment;
   }
 

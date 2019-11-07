@@ -20,7 +20,7 @@
     var leftCoordinate = parseInt(mainPin.style.left, 10);
     location.y = topCoordinate + CORRECT_PIN_Y;
     location.x = leftCoordinate + CORRECT_PIN_X;
-    addressInput.value = location.x + ' ' + location.y;
+    addressInput.value = location.x + ', ' + location.y;
   }
 
   function resetPinPosition() {
