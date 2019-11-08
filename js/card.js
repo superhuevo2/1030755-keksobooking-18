@@ -7,6 +7,8 @@
     'house': 'Дом',
     'palace': 'Дворец',
   };
+  var SECOND_CLASS_INDEX = 1;
+  var FEATURE_INDEX_START = 16;
 
   /**
    * generate a fragment of DOM's elements from an element
@@ -44,7 +46,7 @@
    */
   function selectFeatures(element, features) {
     for (var i = element.children.length - 1; i >= 0; i--) {
-      if (features.indexOf(element.children[i]) === -1) {
+      if (features.indexOf(element.children[i].classList[SECOND_CLASS_INDEX].slice(FEATURE_INDEX_START)) === -1) {
         element.removeChild(element.children[i]);
       }
     }

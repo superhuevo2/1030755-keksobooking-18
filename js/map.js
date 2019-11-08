@@ -91,7 +91,6 @@
 
   function removePins() {
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main');
-
     pins.forEach(function (el) {
       el.remove();
     });
