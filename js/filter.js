@@ -1,13 +1,12 @@
 'use strict';
 (function () {
   var NUMBER_OF_ELEMENTS = 5;
+  var HIGH_PRICE = 50000;
+  var LOW_PRICE = 10000;
   var renderPins = window.map.renderPins;
   var removePins = window.map.removePins;
   var removeCard = window.map.removeCard;
   var debounce = window.debounce;
-
-  var HIGH_PRICE = 50000;
-  var LOW_PRICE = 10000;
 
   var filterObject = {
     dataList: undefined,

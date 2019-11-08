@@ -79,17 +79,22 @@
    */
   function renderPins(objList) {
     var pinElements = createPins(objList);
-    for (var i = 0; i < pinElements.children.length; i++) {
-      addPinClickListener(pinElements.children[i], objList[i]);
-    }
+
+    var counter = 0;
+    Array.prototype.forEach.call(pinElements.children, function (el) {
+      addPinClickListener(el, objList[counter]);
+      counter += 1;
+    });
+
     pinsField.appendChild(pinElements);
   }
 
   function removePins() {
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main');
-    for (var i = pins.length - 1; i >= 0; i--) {
-      pins[i].remove();
-    }
+
+    pins.forEach(function (el) {
+      el.remove();
+    });
   }
 
 
